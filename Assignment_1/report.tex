@@ -1,0 +1,77 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{mathtools}
+
+\newlength\Colsep
+\setlength\Colsep{10pt}
+
+\usepackage{subfig}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{subfloat}
+
+
+\usepackage[style=authoryear-comp, backend=biber]{biblatex}
+\usepackage{fontspec}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\me}{\mathrm{e}}
+
+\graphicspath{{./figures/}}
+
+\begin{document}
+\setlength\parindent{0pt}
+
+
+\title{Perculation Theory}
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent This project is dedicated to the study of perculation theory: the study of the formation of clusters in a graph.
+By taking advantage of that some variables scales as a power law near the phase transition, some of the critical exponents
+of perculation theory are estimated and it is found that the form of the graph does not depend on the form but the dimension.
+\end{abstract}
+
+\newpage
+\clearpage
+\setcounter{page}{1}
+
+\section{Introduction}
+
+\begin{figure}[H]
+  \subfloat[][Beta]{
+    \def\svgwidth{0.5\linewidth}
+    {\input{figures/beta.ps_tex}}
+  }
+  \subfloat[][Alpha]{
+    \def\svgwidth{0.5\linewidth}
+    {\input{figures/alpha.ps_tex}}
+  }
+\end{figure}
+
+
+
+\begin{figure}[H]
+  \centering
+  \def\svgwidth{\linewidth}
+  {\input{figures/L_q.ps_tex}}
+  \caption{A square lattice having red sites and green bonds. This is a lattice with $N = 64$ sites and $M = 128$ bonds.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \def\svgwidth{\linewidth}
+  {\input{figures/task2i.ps_tex}}
+  \caption{A square lattice having red sites and green bonds. This is a lattice with $N = 64$ sites and $M = 128$ bonds.}
+\end{figure}
+
+
+\end{document}
