@@ -37,11 +37,36 @@ L_x_no_beta <- function(x,q){
   return (2^q * s)
 }
 
+difference <- function(
+    x,
+    betas10order,
+    betas_g_fitted
+    )
+    {
+        diff <- 0
+        t <- betas_g_fitted
+
+        if( length(betas10order) > length(betas_g_fitted) ){
+          t <- rep(0, length(betas10order))
+          t[1:length(betas_g_fitted)] <- betas_g_fitted
+
+        }else if(length(betas10order) < length(betas_g_fitted)){
+          t <- rep(0, length(betas_g_fitted))
+          t[1:length(betas_g_fitted)] <- betas10order
+        }
+
+        for(i in 1:length(betas10order)){
+            l <- legendres(x,i)
+            diff <- diff + t[i] * l - betas10order[i] * l
+        }
+        diff^2
+    }
+
 
 calulateError <- function(del_N, del_Q, Q_POLY=10){
   beta_q <<- runif(40+1, min=-1, max=1)
   d_sizes <- seq(20, 60, del_N)
-  s_sizes <- seq(11, 40, del_Q)
+  s_sizes <- seq(1, 40, del_Q)
   row <- 1
   col <- 1
   error_matrix <-  matrix(0, length(d_sizes), length(s_sizes), byrow=T)
@@ -50,56 +75,45 @@ calulateError <- function(del_N, del_Q, Q_POLY=10){
     x <- runif(size, min=-1, max=1)
     x <- x[order(x)]
     col <- 1
+    print(row)
     for( n_Q in s_sizes ){
+      sigma <- 0.2
 
       y <- generateLegendre(x, n_Q, beta_q)
-      y <- sapply(y, function(t) t + rnorm(1,0,0.2^2))
+      y <- sapply(y, function(t) t + rnorm(1,0,sigma^2))
 
-      train <- sample(x, length(x)*0.6)
-      test <- x[!(x %in% train)]
+      data <- data.frame(x,y)
 
-      train <- as.data.frame(cbind(train, y[which(x %in% train)]))
-      test <- as.data.frame(cbind(test, y[which(x %in% test)]))
-
-
-      colnames(test) <- c("x", "y")
-      colnames(train) <- c("x", "y")
-
-
-      m <- matrix(0, length(train$x), Q_POLY+1)
+      m <- matrix(0, length(data$x), Q_POLY+1)
       for (i in 0:Q_POLY){
-        m[,i+1] <- L_x_no_beta(train$x[order(train$x)], i)
+        m[,i+1] <- L_x_no_beta(data$x[order(data$x)], i)
       }
 
       m <- m[,2:ncol(m)]
 
-      model <- lm(train$y ~ m)
+      model <- lm(data$y ~ m)
       coeffs <- unname(coef(model))
-      #print(coeffs)
-      pred <- generateLegendre(test$x, Q_POLY, coeffs)
 
-
-
-      m_2 <- matrix(0, length(train$x), 2+1)
+      m_2 <- matrix(0, length(data$x), 2+1)
       for (i in 0:2){
-        m_2[,i+1] <- L_x_no_beta(train$x[order(train$x)], i)
+        m_2[,i+1] <- L_x_no_beta(data$x[order(data$x)], i)
       }
 
       m_2 <- m[,2:ncol(m)]
 
-      model_2 <- lm(train$y ~ m_2)
+      model_2 <- lm(data$y ~ m_2)
       coeffs_2 <- unname(coef(model_2))
-      pred_2 <- generateLegendre(test$x, 2, coeffs)
 
-      plot(x,y, type="l")
-      lines(test$x, pred, col="red")
-      lines(test$x, pred_2, col="blue")
-      quit()
+      biasg2 <- integrate(difference,-1,1,beta_q,coeffs_2, rel.tol=0.1)
+      biasg2 <- biasg2$value
 
-      err_10 <- sum(pred - test$y)^2 / length(pred)
-      err_2 <- sum(pred_2 - test$y)^2 / length(pred_2)
+      biasg10 <- integrate(difference,-1,1,beta_q,coeffs, rel.tol=0.1)
+      biasg10 <- biasg10$value
 
-      error_matrix[row, col] <- err_10 - err_2
+      err_g10 <- biasg10 + sigma^2
+      err_g2 <- biasg2 + sigma^2
+
+      error_matrix[row, col] <- err_g10 - err_g2
       col <- col + 1
     }
     row <- row + 1
@@ -107,7 +121,9 @@ calulateError <- function(del_N, del_Q, Q_POLY=10){
   return(error_matrix)
 }
 
-for( i in 1:100) {
-  cat(sprintf("%.2f\r", i/100))
-  write.table(calulateError(del_N=1, del_Q=1, Q_POLY=10), sprintf("matrix/matrix%d.csv", i), col.names=FALSE,row.names=FALSE, sep=",")
+a <- 100
+for( i in 1:a) {
+  cat(sprintf("%.2f\r", i/a))
+  o <- sample(c(500:100000),1)
+  write.table(calulateError(del_N=1, del_Q=1, Q_POLY=10), sprintf("matrix/matrix%d.csv", o), col.names=FALSE,row.names=FALSE, sep=",")
 }
