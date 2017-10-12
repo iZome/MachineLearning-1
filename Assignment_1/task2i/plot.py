@@ -20,11 +20,14 @@ for filename in files:
     data = np.loadtxt(path+"/"+filename, delimiter=",")
     m += data
 
-
 m = np.rot90(np.transpose(m/len(files)), k=3)
-im = ax.imshow( m, cmap=plt.cm.Reds,   interpolation='none', \
-extent=[22,m.shape[0]+18, 0.2,1.1], aspect='auto', \
-vmax=np.log(m.max()), vmin=-np.log(m.max())
+
+print(m.min())
+norm = mpl.colors.Normalize(vmin=m.min(),vmax=1)
+
+im = ax.imshow( m, cmap=plt.cm.Reds, interpolation='none', norm=norm, \
+extent=[20,m.shape[0]+20, 0.2,1.1], aspect='auto', \
+#vmax=2, vmin=m.min()
 )
 ax.set_xlabel("\$N$")
 ax.set_ylabel("\$\sigma\$")
