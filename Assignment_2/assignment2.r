@@ -1,101 +1,98 @@
 
 
-set.seed(11)
-generateX <- function(size){
+set.seed(420)
+
+targetFunction <- function(size){
   x <- runif(size, min=-1, max=1)
-  return( x[order(x)] )
-}
-
-targetFunction <- function(x){
+  x <- x[order(x)]
   y <- sapply(0.8*x, function(t) t + rnorm(1,0,1))
+
+  return(data.frame(x=x, y=y))
+}
+
+g1 <- function(data){
+  y <- lm(I(y - (-0.5)) ~ 0 + x, data=data)
   return(y)
 }
 
-g1 <- function(x){
-  y <- lm(tf ~ 0 + x, offset=rep(0.5,length(x)))
+g2 <- function(data){
+  y <- lm(I(y - 0.5) ~ 0 + x, data=data)
   return(y)
 }
 
-g2 <- function(x){
-  y <- lm(tf ~ 0 + x, offset=rep(-0.5,length(x)))
-  return(y)
-}
-
-o <- function(x){
-  y <- lm(tf ~ 0 + x)
+o <- function(data){
+  y <- lm(y ~ 0 + x, data=data)
   return(y)
 }
 
 task1i <- function(size){
-  x <- generateX(size=size)
-  y <- x * 0.8
-  tf <<- targetFunction(x)
-  plot(x, targetFunction(x=x))
-  abline(o(x=x), col="red")
-  abline(g1(x=x), col="green")
-  abline(g2(x=x), col="blue")
+  tf <- targetFunction(30)
+
+  plot(tf$x, tf$y)
+  abline(0.5, coef(g1(tf)), col="red")
+  abline(-0.5, coef(g2(tf)), col="green")
+  abline(o(tf), col="black")
 }
+
 
 # Run task 1i
 #task1i(size=30)
 
-calculateEval <- function(val, target_function, model){
-  e_val <- rep(0, length(val))
-
-  for( i in 1:4){
-    e_val[i] <- (sum((target_function[1:i] - model[1:i])^2)) / i
-  }
-
-  for( i in 5:length(model)){
-    e_val[i] <- (sum((target_function[1:i] - model[1:i])^2)) / i
-  }
-
-  return(e_val)
+fdiff <- function(x, coef_underlying, coef_bestModel, offset){
+  return((0-offset + (coef_bestModel - coef_underlying)*x)^2)
 }
-
 
 task2i <- function(size){
-  x_tar <- generateX(size)
-  target_function <- targetFunction(x_tar)
-  best_model_error <- 1000
-  best_model <- NULL
-  e_val <- rep(0,9)
 
-  for( i in 1:1 ){
-    x <- generateX(size)
-    train <- subset(x, x %in% x[c(5:25)])
-    val  <- subset(x, !(x %in% train))
+  e_out <- rep(0,21)
+  e_val <- rep(0,21)
 
-    g1_train <- lm(target_function[5:25] ~ 0 + train, offset=rep(0.5,length(train)))
-    g2_train <- lm(target_function[5:25] ~ 0 + train, offset=rep(-0.5,length(train)))
+  for( index in 1:100 ){
+    target_function <- targetFunction(size)
 
-    ord <- lm(target_function ~ 0 + x)
+    for(i in 5:25){
+      # Split to train and validation set
+      train <- subset(target_function, target_function$x %in% target_function$x[c((nrow(target_function) - i):5)])
+      val  <- subset(target_function, !(target_function$x %in% train$x))
 
-    newdata <- data.frame(train = val)
-    g1_pred <- predict(g1_train, newdata=newdata)
-    g2_pred <- predict(g2_train, newdata=newdata)
+      # Train a linear model
+      g1_train <- g1(train)
+      g2_train <- g2(train)
+      underlying_function <- lm(y ~ 0 + x, data=target_function)
 
-    mse_1 <- (sum((target_function[1:4] - g1_pred[1:4])^2) +
-             sum((target_function[26:length(target_function)] - g1_pred[5:length(g1_pred)])^2)) / length(g1_pred)
+      # Predict
+      newdata <- data.frame(x = c(val$x))
+      g1_pred <- predict(g1_train, newdata=newdata)
+      g2_pred <- predict(g2_train, newdata=newdata)
 
-    mse_2 <- (sum((target_function[1:4] - g2_pred[1:4])^2) +
-             sum((target_function[26:length(target_function)] - g2_pred[5:length(g2_pred)])^2)) / length(g2_pred)
+      mse_1 <- mean((g1_pred - val$y)^2)
+      mse_2 <- mean((g2_pred - val$y)^2)
 
+      # Best model
+      best_model <- if(mse_1 < mse_2) g1_train else g2_train
+      offset <- if(mse_1 < mse_2) 0.5 else -0.5
 
-    best_model <- if (mse_1 < mse_2) g1_pred else g2_pred
+      eOut <- function(x){
+        fdiff(x, coef(underlying_function), coef(best_model), offset=offset)
+      }
 
-    e_val <- e_val + calculateEval(val=val, target_function=target_function, model = best_model)
+      # Append e_val
+      if(mse_1 < mse_2) e_val[i-4] = e_val[i-4] + mse_1 else e_val[i-4] = e_val[i-4] + mse_2
 
+      # Append e_out
+      e_out[i-4] <- e_val[i-4] + integrate(eOut, -1, 1)$value + 1
 
-    #print(mse_1 - mse_2)
-    plot(x_tar, target_function)
-    abline(g1_train)
-    abline(g2_train)
+    }
+
   }
+  e_val <- e_val / index
+  e_out <- e_out / index
 
-  e_val <- e_val / i
-  print(e_val)
-
+  return(list(e_val, e_out))
 }
 
-task2i(30)
+res <- task2i(30)
+plot(res[[1]], type="l", ylim=c(0,2))
+lines(res[[2]], type="l", col="red")
+
+#warnings()
