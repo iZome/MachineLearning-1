@@ -120,29 +120,4 @@ reconstructImage <- function(number_of_eigenfaces){
 
 reconstructImage(5)
 
-#i=1
-#eig<-eigenfaceImage(img_eig[,i],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)))
-
-#par(mfrow=c(1,7))
-#ar(mar=c(0.1,0.2,0.2,0.1))
-#eig<-eigenfaceImage(img_eig[,1],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#eig<-eigenfaceImage(img_eig[,2],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#eig<-eigenfaceImage(img_eig[,3],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#eig<-eigenfaceImage(img_eig[,4],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#eig<-eigenfaceImage(img_eig[,5],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#eig<-eigenfaceImage(img_eig[,6],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#eig<-eigenfaceImage(img_eig[,7],W,H)
-#image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
-#par(mar=c(2,2,2,2))
-
-#svg(filename='mean_face.svg')
-#image(img_mean,col = grey(seq(0, 1, length = 256)))
-#dev.off()
 
