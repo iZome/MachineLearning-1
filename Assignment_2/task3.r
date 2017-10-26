@@ -46,8 +46,8 @@ getMeanAndSDImage <- function(){
 }
 
 mean_sd <- getMeanAndSDImage()
-img_mean <- scaledImage[[1]]
-img_sd <- scaledImage[[2]]
+img_mean <- mean_sd[[1]]
+img_sd <- mean_sd[[2]]
 
 scaleImage <- function(){
   img_scale<-array(NA,dim=c(N,W,H))
@@ -75,13 +75,18 @@ conversionToInputMatrix <- function(){
 X <- conversionToInputMatrix()
 
 getCovarianceMatrix <- function(){
-  A<-X%*%t(X) #covariance matrix, C<-t(X)%*%X
+  A<-X%*%t(X) #covariance matrix, C<-t(X)%*%X)
   store<-prcomp(A)
   img_eig<-t(X)%*%store$rotation
-  return(img_eig)
+  return(list(img_eig, store))
 }
 
-img_eig <- getCovarianceMatrix()
+temp <- getCovarianceMatrix()
+img_eig <- temp[[1]]
+dim(X)
+pca <- prcomp(X, center = TRUE, scale. = TRUE)
+
+
 
 eigenfaceImage <- function(EigenfaceVec,W,H){
   Eigenface<-matrix(NA,ncol=H,nrow=W)
@@ -91,9 +96,33 @@ eigenfaceImage <- function(EigenfaceVec,W,H){
   return(Eigenface)
 }
 
-i=1
-eig<-eigenfaceImage(img_eig[,i],W,H)
-image(eig,col = grey(seq(0, 1, length = 256)))
+rotate <- function(x) t(apply(x, 2, rev))
+
+reconstructImage <- function(number_of_eigenfaces){
+  # reconstruct matrix
+  restr <- pca$x[,1:number_of_eigenfaces] %*% t(pca$rotation[,1:number_of_eigenfaces])
+  
+  # unscale and uncenter the data
+  if(all(pca$scale != FALSE)){
+    restr <- scale(restr, center = FALSE , scale=1/pca$scale)
+  }
+  if(all(pca$center != FALSE)){
+    restr <- scale(restr, center = -1 * pca$center, scale=FALSE)
+  }
+  
+  par(mfcol=c(1,2), mar=c(1,1,2,1))
+  # plot the original image and reconstructed image
+  image(img_scale[115,,],col = grey(seq(0, 1, length = 256)), xaxt='n', ann=FALSE, yaxt='n')
+  
+  rst <- rotate(rotate(rotate(matrix(data=(restr[115,]), nrow=112, ncol=92))))
+  image(rst,col = grey(seq(0, 1, length = 256)), xaxt='n', ann=FALSE, yaxt='n')
+}
+
+reconstructImage(5)
+
+#i=1
+#eig<-eigenfaceImage(img_eig[,i],W,H)
+#image(eig,col = grey(seq(0, 1, length = 256)))
 
 #par(mfrow=c(1,7))
 #ar(mar=c(0.1,0.2,0.2,0.1))
@@ -113,7 +142,7 @@ image(eig,col = grey(seq(0, 1, length = 256)))
 #image(eig,col = grey(seq(0, 1, length = 256)),axes=FALSE)
 #par(mar=c(2,2,2,2))
 
-svg(filename='mean_face.svg')
-image(img_mean,col = grey(seq(0, 1, length = 256)))
-dev.off()
+#svg(filename='mean_face.svg')
+#image(img_mean,col = grey(seq(0, 1, length = 256)))
+#dev.off()
 
