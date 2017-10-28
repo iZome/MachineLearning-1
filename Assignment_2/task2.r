@@ -24,31 +24,6 @@ legendre <- function(x,n){
 	return((2^n)*val)
 }
 
-################################################################################
-################################################################################
-# Legendre polynomials with betas
-l <- function(x,q,k){
-      x**k * choose(q,k) * choose((q+k-1)/2,q)
-    }
-
-legendres <- function(x,q){
-    func <- rep(0,length(x))
-        for(k in 0:q){
-            func <- func + l(x,q,k)
-        }
-    func <- 2**q * func
-    }
-
-generateLegendre <- function(x, Qf, betas){
-      func <- rep(0,length(x))
-      for(q in 0:Qf){
-          func <- func + betas[q+1] * legendres(x, q)
-      }
-      return(func)
-    }
-
-################################################################################
-################################################################################
 
 reguralizedEstimate <- function(data, order, lambda){
   y <- matrix(data$y, nrow=nrow(data), byrow=T)
@@ -126,15 +101,24 @@ task2ii <- function(){
     colnames(result) <- c("Predicted", "Actual")
     result$Difference <- (abs(result$Actual - result$Predicted))^2
 
-    cv_error <- sum((result$Difference))/(nrow(result))
-    cv[s] <- cv_error
+    cv[s] <- sum((result$Difference))/(nrow(result))
     s <- s + 1
   }
   return(cv)
 }
 
+getBestModel <- function(){
+  m <- reguralizedModel(data, 2.7, 10)
+  write.table(m, sprintf("data/best_model.csv"), col.names=FALSE,row.names=FALSE, sep=",")
+}
+
+getBestModel()
+
 #res <- task2ii()
-#write.table(res, sprintf("data/cv_error.csv"), col.names=FALSE,row.names=FALSE, sep=",")
+#argmin <- which.min(res)
+#seq(0.1,10,by=0.1)[argmin]
+#write.table(seq(0.1,10,by=0.1)[argmin], sprintf("data/argmin.csv"), col.names=FALSE,row.names=FALSE, sep=",")
+#argmin(res)
 #plot(seq(0.1,10,by=0.1), res, xlab="lambda", ylab="error", type="l")
 
 

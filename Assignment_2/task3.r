@@ -1,6 +1,6 @@
 library(pixmap)
 
-N<-400;H<-112;W<-92
+N<-401;H<-112;W<-92
 
 readImages <- function(){
   #img.data will contain the picture files in unaltered matrix format
@@ -83,7 +83,6 @@ getCovarianceMatrix <- function(){
 
 temp <- getCovarianceMatrix()
 img_eig <- temp[[1]]
-dim(X)
 pca <- prcomp(X, center = TRUE, scale. = TRUE)
 
 
@@ -95,8 +94,6 @@ eigenfaceImage <- function(EigenfaceVec,W,H){
   }
   return(Eigenface)
 }
-
-rotate <- function(x) t(apply(x, 2, rev))
 
 reconstructImage <- function(number_of_eigenfaces){
   # reconstruct matrix
@@ -112,12 +109,22 @@ reconstructImage <- function(number_of_eigenfaces){
   
   par(mfcol=c(1,2), mar=c(1,1,2,1))
   # plot the original image and reconstructed image
-  image(img_scale[115,,],col = grey(seq(0, 1, length = 256)), xaxt='n', ann=FALSE, yaxt='n')
+  image(img_scale[401,,],col = grey(seq(0, 1, length = 256)), xaxt='n', ann=FALSE, yaxt='n')
   
-  rst <- rotate(rotate(rotate(matrix(data=(restr[115,]), nrow=112, ncol=92))))
+  rst <- t(matrix(data=(restr[401,]), nrow=112, ncol=92))
   image(rst,col = grey(seq(0, 1, length = 256)), xaxt='n', ann=FALSE, yaxt='n')
 }
 
-reconstructImage(5)
+reconstructImage(90)
+
+#> png(filename='recon_5_eigenfaces.png')
+#> restr <- pca$x[,1:5] %*% t(pca$rotation[,1:5])
+#> rst <- rotate(rotate(rotate(matrix(data=(restr[115,]), nrow=112, ncol=92))))
+#> image(rst,col = grey(seq(0, 1, length = 256)), xaxt='n', ann=FALSE, yaxt='n')
+#> dev.off()
+
+##eig<-EigenfaceImage(img.eig[,i],W,H)
+#image(eig,col = grey(seq(0, 1, length = 256)))
+
 
 

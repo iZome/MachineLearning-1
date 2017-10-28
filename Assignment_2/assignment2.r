@@ -1,5 +1,5 @@
 
-
+# Set seed for repeatability
 set.seed(420)
 
 targetFunction <- function(size){
@@ -21,17 +21,42 @@ g2 <- function(data){
 }
 
 task1i <- function(size){
-  tf <- targetFunction(30)
+  N <- 20000
+  rel <- rep(0,N)
 
-  plot(tf$x, tf$y)
-  abline(0.5, coef(g1(tf)), col="red")
-  abline(-0.5, coef(g2(tf)), col="green")
-  abline(0, 0.8)
+  coef_1 <- rep(0,N)
+  coef_2 <- rep(0,N)
+
+  diff1 <- function(x, coef_underlying=0.8, coef_est, offset){
+    return((0-offset + (coef_est - coef_underlying)*x)^2)
+  }
+
+  for(i in 2:N){
+    tf <- targetFunction(30)
+    g1 <- coef(g1(tf))
+    g2 <- coef(g2(tf))
+
+    coef_1[i] <- g1
+    coef_2[i] <- g2
+
+    eOut_1 <- function(x){
+      diff1(x, coef_underlying=0.8, coef_est=g1, offset=0.5)
+    }
+
+    eOut_2 <- function(x){
+      diff1(x, coef_underlying=0.8, coef_est=g2, offset=0.5)
+    }
+
+    biassq1 <- integrate(eOut_1, -1, 1)$value + 1
+    biassq2 <- integrate(eOut_2, -1, 1)$value + 1
+    rel[i] <- rel[i-1] + (biassq2 - biassq1)/N
+
+  }
 }
 
 
 # Run task 1i
-#task1i(size=30)
+task1i(size=30)
 
 fdiff <- function(x, coef_underlying, coef_bestModel, offset){
   return((0-offset + (coef_bestModel - coef_underlying)*x)^2)
@@ -82,10 +107,8 @@ task2i <- function(size){
   e_val <- e_val / index
   e_out <- e_out / index
 
-  #write.table(e_val, sprintf("eval.csv"), col.names=FALSE,row.names=FALSE, sep=",")
-  #write.table(e_out, sprintf("eout.csv"), col.names=FALSE,row.names=FALSE, sep=",")
+  write.table(e_val, sprintf("eval.csv"), col.names=FALSE,row.names=FALSE, sep=",")
+  write.table(e_out, sprintf("eout.csv"), col.names=FALSE,row.names=FALSE, sep=",")
 }
 
 task2i(30)
-
-#warnings()
