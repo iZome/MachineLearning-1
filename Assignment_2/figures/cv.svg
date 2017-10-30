@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with matplotlib (http://matplotlib.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="432pt"
+   version="1.1"
+   viewBox="0 0 576 432"
+   width="576pt"
+   id="svg177"
+   sodipodi:docname="cv.svg"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <metadata
+     id="metadata181">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="951"
+     id="namedview179"
+     showgrid="false"
+     inkscape:zoom="1.16"
+     inkscape:cx="74.732899"
+     inkscape:cy="281.10344"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="matplotlib.axis_1" />
+  <defs
+     id="defs4">
+    <style
+       type="text/css"
+       id="style2">
+*{stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000;}
+  </style>
+  </defs>
+  <g
+     id="figure_1">
+    <g
+       id="patch_1">
+      <path
+         d="M 0 432  L 576 432  L 576 0  L 0 0  z "
+         style="fill:#ffffff;"
+         id="path6" />
+    </g>
+    <g
+       id="axes_1">
+      <g
+         id="patch_2">
+        <path
+           d="M 72 388.8  L 518.4 388.8  L 518.4 43.2  L 72 43.2  z "
+           style="fill:#ffffff;"
+           id="path9" />
+      </g>
+      <g
+         id="line2d_1">
+        <path
+           clip-path="url(#p8a40d61d49)"
+           d="M 76.464 82.868212  L 80.928 224.130438  L 85.392 267.865032  L 89.856 291.603287  L 94.32 307.549839  L 98.784 319.410828  L 103.248 328.739112  L 107.712 336.325888  L 112.176 342.630504  L 116.64 347.945342  L 121.104 352.469456  L 125.568 356.345406  L 130.032 359.67936  L 134.496 362.552874  L 138.96 365.030167  L 143.424 367.162857  L 147.888 368.993145  L 152.352 370.556031  L 156.816 371.880905  L 161.28 372.992714  L 165.744 373.912828  L 170.208 374.659713  L 174.672 375.249434  L 179.136 375.69607  L 183.6 376.012026  L 188.064 376.208295  L 192.528 376.294667  L 196.992 376.279898  L 201.456 376.171856  L 205.92 375.977632  L 210.384 375.703647  L 214.848 375.355726  L 219.312 374.939178  L 223.776 374.458849  L 228.24 373.919177  L 232.704 373.324236  L 237.168 372.677774  L 241.632 371.983247  L 246.096 371.243848  L 250.56 370.462534  L 255.024 369.642045  L 259.488 368.784928  L 263.952 367.893552  L 268.416 366.970124  L 272.88 366.016705  L 277.344 365.035218  L 281.808 364.027464  L 286.272 362.99513  L 290.736 361.939795  L 295.2 360.862945  L 299.664 359.765973  L 304.128 358.650191  L 308.592 357.516832  L 313.056 356.36706  L 317.52 355.201971  L 321.984 354.022598  L 326.448 352.829919  L 330.912 351.624856  L 335.376 350.408281  L 339.84 349.18102  L 344.304 347.943853  L 348.768 346.69752  L 353.232 345.442722  L 357.696 344.180122  L 362.16 342.910352  L 366.624 341.634009  L 371.088 340.351659  L 375.552 339.063842  L 380.016 337.771069  L 384.48 336.473826  L 388.944 335.172576  L 393.408 333.867756  L 397.872 332.559784  L 402.336 331.249059  L 406.8 329.935957  L 411.264 328.620837  L 415.728 327.304043  L 420.192 325.985899  L 424.656 324.666715  L 429.12 323.346787  L 433.584 322.026395  L 438.048 320.705807  L 442.512 319.385277  L 446.976 318.065048  L 451.44 316.745352  L 455.904 315.426407  L 460.368 314.108424  L 464.832 312.791602  L 469.296 311.47613  L 473.76 310.162191  L 478.224 308.849955  L 482.688 307.539588  L 487.152 306.231244  L 491.616 304.925073  L 496.08 303.621215  L 500.544 302.319806  L 505.008 301.020972  L 509.472 299.724836  L 513.936 298.431513  L 518.4 297.141112  "
+           style="fill:none;stroke:#000000;stroke-linecap:square;"
+           id="path12" />
+      </g>
+      <g
+         id="patch_3">
+        <path
+           d="M 72 388.8  L 72 43.2  "
+           style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;"
+           id="path15" />
+      </g>
+      <g
+         id="patch_4">
+        <path
+           d="M 72 388.8  L 518.4 388.8  "
+           style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;"
+           id="path18" />
+      </g>
+      <g
+         id="matplotlib.axis_1">
+        <g
+           id="xtick_2">
+          <g
+             id="line2d_3">
+            <g
+               id="g35">
+              <path
+                 inkscape:connector-curvature="0"
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use33"
+                 d="m 161.28,388.79999 v -4" />
+            </g>
+          </g>
+          <g
+             id="text_2"
+             transform="translate(0,6)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="161.28"
+               y="404.95749"
+               id="text38">2</text>
+          </g>
+        </g>
+        <g
+           id="xtick_3">
+          <g
+             id="line2d_4">
+            <g
+               id="g44">
+              <path
+                 inkscape:connector-curvature="0"
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use42"
+                 d="m 250.56,388.79999 v -4" />
+            </g>
+          </g>
+          <g
+             id="text_3"
+             transform="translate(0,6)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="250.56"
+               y="404.95749"
+               id="text47">4</text>
+          </g>
+        </g>
+        <g
+           id="xtick_4">
+          <g
+             id="line2d_5">
+            <g
+               id="g53">
+              <path
+                 inkscape:connector-curvature="0"
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use51"
+                 d="m 339.84,388.79999 v -4" />
+            </g>
+          </g>
+          <g
+             id="text_4"
+             transform="translate(0,6)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="339.84"
+               y="404.95749"
+               id="text56">6</text>
+          </g>
+        </g>
+        <g
+           id="xtick_5">
+          <g
+             id="line2d_6">
+            <g
+               id="g62">
+              <path
+                 inkscape:connector-curvature="0"
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use60"
+                 d="m 429.12,388.79999 v -4" />
+            </g>
+          </g>
+          <g
+             id="text_5"
+             transform="translate(0,6)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="429.12"
+               y="404.95749"
+               id="text65">8</text>
+          </g>
+        </g>
+        <g
+           id="xtick_6">
+          <g
+             id="line2d_7">
+            <g
+               id="g71">
+              <path
+                 inkscape:connector-curvature="0"
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use69"
+                 d="m 518.40002,388.79999 v -4" />
+            </g>
+          </g>
+          <g
+             id="text_6"
+             transform="translate(0,6)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="518.40002"
+               y="404.95749"
+               id="text74">10</text>
+          </g>
+        </g>
+        <g
+           id="text_7">
+          <text
+             style="font-family:Bitstream Vera Sans;font-size:16.0px;font-style:normal;font-weight:400;text-anchor:middle;"
+             transform="rotate(-0.000000, 295.200000, 425.442500)"
+             x="295.2"
+             y="425.4425"
+             id="text78">$\lambda$</text>
+        </g>
+      </g>
+      <g
+         id="matplotlib.axis_2">
+        <g
+           id="ytick_3">
+          <g
+             id="line2d_10">
+            <g
+               id="g105">
+              <path
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use103"
+                 d="m 72,302.39999 h 4"
+                 inkscape:connector-curvature="0" />
+            </g>
+          </g>
+          <g
+             id="text_10"
+             transform="translate(-1.5)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:end;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="68"
+               y="306.815"
+               id="text108">1.3</text>
+          </g>
+        </g>
+        <g
+           id="ytick_5">
+          <g
+             id="line2d_12">
+            <g
+               id="g123">
+              <path
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use121"
+                 d="m 72,216 h 4"
+                 inkscape:connector-curvature="0" />
+            </g>
+          </g>
+          <g
+             id="text_12"
+             transform="translate(-1.5)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:end;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="68"
+               y="220.41499"
+               id="text126">1.4</text>
+          </g>
+        </g>
+        <g
+           id="ytick_7"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+          <g
+             id="line2d_14"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <g
+               id="g141"
+               style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+              <path
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use139"
+                 d="m 72,129.60001 h 4"
+                 inkscape:connector-curvature="0" />
+            </g>
+          </g>
+          <g
+             id="text_14"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+             transform="translate(-1.5)">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:end;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="68"
+               y="134.015"
+               id="text144">1.5</text>
+          </g>
+        </g>
+        <g
+           id="ytick_9">
+          <g
+             id="line2d_16">
+            <g
+               id="g159">
+              <path
+                 style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+                 id="use157"
+                 d="m 72,43.200001 h 4"
+                 inkscape:connector-curvature="0" />
+            </g>
+          </g>
+          <g
+             id="text_16"
+             transform="translate(-1.5)"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+            <text
+               style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:end;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+               x="68"
+               y="47.615002"
+               id="text162">1.6</text>
+          </g>
+        </g>
+        <g
+           id="text_17"
+           transform="translate(-3)"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
+          <text
+             style="font-style:normal;font-weight:400;font-size:16px;font-family:'Bitstream Vera Sans';text-anchor:middle;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+             transform="rotate(-90,23.6025,216)"
+             x="23.602501"
+             y="216"
+             id="text166">$\text{CV}_\text{{error}}$</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <defs
+     id="defs175">
+    <clipPath
+       id="p8a40d61d49">
+      <rect
+         height="345.6"
+         width="446.4"
+         x="72.0"
+         y="43.2"
+         id="rect172" />
+    </clipPath>
+  </defs>
+</svg>
