@@ -1,0 +1,2 @@
+/usr/bin/ar qc libMachineLearning.a  CMakeFiles/MachineLearning.dir/LegendreFitting.cpp.o
+/usr/bin/ranlib libMachineLearning.a

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tkleiven/Documents/UCT/MachineLearning/bin/Main.cpp
+LegendreFitting.hpp
+/home/tkleiven/Documents/UCT/MachineLearning/bin/LegendreFitting.hpp
+
+include/LegendreFitting.hpp
+armadillo
+-
+gsl/gsl_vector.h
+-
+gsl/gsl_rng.h
+-
+
