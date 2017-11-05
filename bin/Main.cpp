@@ -3,7 +3,8 @@
 using namespace std;
 
 int main(){
-  srand(0);
-  LegendreFitting legendreFitting(21);
+  srand(time(NULL));
+  LegendreFitting legendreFitting(2);
+  legendreFitting.run();
 
 }

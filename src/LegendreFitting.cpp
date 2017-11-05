@@ -8,6 +8,9 @@
 #include <gsl/gsl_multifit.h>
 #include <gsl/gsl_sf_legendre.h>
 #include <gsl/gsl_integration.h>
+#include <iomanip>
+#include <iostream>
+#include <boost/math/special_functions/binomial.hpp>
 
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_vector.h>
@@ -22,31 +25,46 @@ using namespace std;
 LegendreFitting::LegendreFitting(int N):N(N){
   setupRandomGenerator();
 
-  std::vector<int> v(120);
-  std::iota(v.begin(), v.end(), 20);
-  arma::vec sig = arma::linspace(0.1, 2.5, 1000);
-  int a = 10;
-
-  result.set_size(v.size(), sig.n_elem);
-
-  for( int k = 0; k < a; k++){
-    cout << k << endl;
-    for( int i = 0; i < v.size(); i++){
-      for( int j = 0; j<sig.n_elem; j++){
-        fitHypothesis(v[i], sig(j), 11);
-        double err10 = evaluateBias();
-
-        fitHypothesis(v[i], sig(j), 3);
-        double err2 = evaluateBias();
-
-        result(i,j) += err10 - err2;
-      }
-    }
+  sig = arma::linspace(0.1, 1.7, 10);
+  rand_identifier = rand()%10000000;
+  for(int i = 20; i<=120; i++){
+    v.push_back(i);
   }
 
-  result /= a;
-  result.save("res.csv", arma::csv_ascii);
+  result.set_size(v.size(), sig.n_elem);
+}
 
+void LegendreFitting::run(){
+  int a = 50;
+
+  //#pragma omp parallel for
+  for( int k = 0; k < a; k++){
+    LegendreFitting *lq = new LegendreFitting(2);
+    unsigned int id = omp_get_thread_num();
+
+    if(id == 0){
+      cout << (4 * k) / ((double) a) << '\r';
+      cout.flush();
+    }
+
+    for( int i = 0; i < lq->v.size(); i++){
+      for( int j = 0; j<lq->sig.n_elem; j++){
+        lq->fitHypothesis(lq->v[i], lq->sig(j), 11);
+        float err10 = lq->evaluateBias();
+
+        lq->fitHypothesis(lq->v[i], lq->sig(j), 3);
+        float err2 = lq->evaluateBias();
+        lq->result(i,j) +=  err10 - err2;
+      }
+    }
+
+    stringstream filename;
+    filename << "results/res" << "_" << lq->rand_identifier << ".csv";
+    lq->result.save(filename.str().c_str(), arma::csv_ascii);
+    filename.str("");
+
+    if(id != 0){delete lq; lq = NULL;}
+  }
 }
 
 
@@ -71,10 +89,12 @@ gsl_vector* LegendreFitting::generateObservation(int Qf, int N, double sigma){
 
   double noise = 0;
 
+
   for( int i = 0; i <= Qf; i++){
     for( int j = 0; j < x.n_elem; j++){
       if(i == Qf){noise = gsl_ran_gaussian(r, pow(sigma,2)); }
       gsl_vector_set(y, j, gsl_vector_get(y,j) + betas(i)*Legendre::Pn(i, x(j)) + noise);
+
     }
   }
   return y;
@@ -90,7 +110,14 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
 
   gsl_vector *c = gsl_vector_alloc(p);
   gsl_matrix *cov = gsl_matrix_alloc(p,p);
-  gsl_vector *y = generateObservation(10, N, sigma);
+  //gsl_vector *y = generateObservation(10, N, sigma);
+
+  x = generateX(N);
+  arma::vec y1 = p0(x) + p1(x) + p2(x);// + p3(x) + p4(x) + p5(x) + p6(x) + p7(x) + p8(x) + p9(x) + p10(x)
+
+  //gsl_vector *y = y1.memptr();
+  gsl_vector *y = reinterpret_cast<gsl_vector*>(y1.memptr());
+
 
   x = arma::linspace(-1,1, N);
   double chisq;
@@ -164,4 +191,59 @@ double LegendreFitting::evaluateBias(){
 
   gsl_integration_workspace_free (w);
   return result;
+}
+
+arma::vec& LegendreFitting::p0(arma::vec& x){
+  l0 = arma::ones(x.n_elem);
+  return l0;
+}
+
+arma::vec& LegendreFitting::p1(arma::vec& x){
+  l1 = x;
+  return l1;
+}
+
+arma::vec& LegendreFitting::p2(arma::vec& x){
+  l2 = 0.5*(3 * arma::pow(x,2) - 1);
+  return l2;
+}
+
+arma::vec& LegendreFitting::p3(arma::vec& x){
+  l3 = 0.5*(5 * arma::pow(x, 3) - 3 * x);
+  return l3;
+}
+
+arma::vec& LegendreFitting::p4(arma::vec& x){
+  l4 = (1/8.0) * (35*arma::pow(x,4) - 30*arma::pow(x,2) + 3);
+  return l4;
+}
+
+arma::vec& LegendreFitting::p5(arma::vec& x){
+  l5 = (1/8.0) * (63*arma::pow(x,5) - 70*arma::pow(x,3) + 15 * x);
+  return l5;
+}
+
+arma::vec& LegendreFitting::p6(arma::vec& x){
+  l6 = (1/16.0) * (231 * arma::pow(x,6) - 315 * arma::pow(x,4) + 105*arma::pow(x,2) - 5);
+  return l6;
+}
+
+arma::vec& LegendreFitting::p7(arma::vec& x){
+  l7 = (1/16.0) * (429 * arma::pow(x,7) - 693 * arma::pow(x,5) + 315*arma::pow(x,3) - 35*x);
+  return l7;
+}
+
+arma::vec& LegendreFitting::p8(arma::vec& x){
+  l8 = (1/128.0) * (6435 * arma::pow(x,8) - 12012*arma::pow(x,6) + 6930*arma::pow(x,4) - 1260 * arma::pow(x,2) + 35);
+  return l8;
+}
+
+arma::vec& LegendreFitting::p9(arma::vec& x){
+  l9 = (1/128.0) * (12155 * arma::pow(x,9) - 25740*arma::pow(x,7) + 18018*arma::pow(x,5) - 4620 * arma::pow(x,3) + 315 * x);
+  return l9;
+}
+
+arma::vec& LegendreFitting::p10(arma::vec& x){
+  l10 = (1/256.0) * (46189 * arma::pow(x,10) - 109395*arma::pow(x,8) + 90090*arma::pow(x,6) - 30030 * arma::pow(x,4) + 3465 * arma::pow(x,2) - 63);
+  return l10;
 }

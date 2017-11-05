@@ -27,6 +27,12 @@ gsl/gsl_sf_legendre.h
 -
 gsl/gsl_integration.h
 -
+iomanip
+-
+iostream
+-
+boost/math/special_functions/binomial.hpp
+-
 gsl/gsl_math.h
 -
 gsl/gsl_vector.h

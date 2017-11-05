@@ -8,19 +8,18 @@ mpl.rcParams['svg.fonttype'] = "none"
 mpl.rcParams['font.size'] = 16
 from matplotlib import pyplot as plt
 
-path = sys.argv[1]
+m = np.loadtxt("averaged_matrix.csv", delimiter=",")
 
-files = [f for f in listdir(path) if isfile(join(path, f)) and "matrix" in f]
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
 
-fig, ax = plt.subplots()
+norm = mpl.colors.Normalize(vmin=-0.2, vmax=1)
 
-m = np.loadtxt("res.csv", delimiter=",")
-norm = mpl.colors.Normalize(vmin=-0.2,vmax=1)
-
-im = ax.imshow( m, cmap="Spectral", norm=norm,
+im = ax.imshow(m, cmap="brg", norm=norm, interpolation='gaussian',
 extent=[0.2,1.1, m.shape[0]+20, 20], aspect='auto', \
 #vmax=np.log(m.max()), vmin=-m.min()
 )
+
 plt.colorbar(im)
 ax.set_xlabel("\$\sigma$")
 ax.set_ylabel("\$N\$")

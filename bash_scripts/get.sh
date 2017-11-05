@@ -1,2 +1,2 @@
 source params.sh
-scp thomklei@$ip:$path/*$1* ./
+scp -r thomklei@$ip:$path/*$1* ./
