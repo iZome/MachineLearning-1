@@ -92,7 +92,6 @@ main.out: CMakeFiles/main.out.dir/bin/Main.cpp.o
 main.out: CMakeFiles/main.out.dir/build.make
 main.out: /usr/lib64/libarmadillo.so
 main.out: /usr/lib64/libgsl.so
-main.out: /usr/lib64/liblapack.so
 main.out: src/libMachineLearning.a
 main.out: CMakeFiles/main.out.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tkleiven/Documents/UCT/MachineLearning/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable main.out"

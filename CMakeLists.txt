@@ -3,8 +3,8 @@ project (src)
 find_package(Armadillo REQUIRED)
 link_directories("/usr/lib64")
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
+#set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 include_directories( include )
 
@@ -17,14 +17,6 @@ if( NOT GSL )
 endif()
 MESSAGE( STATUS "Found GSL ${GSL}")
 set( LIB ${LIB} ${GSL} )
-
-find_library( LAPACK lapack )
-if ( NOT LAPACK )
-  MESSAGE( FATAL_ERROR "Did not find lapack!")
-endif()
-MESSAGE( STATUS "Found lapack ${LAPACK}")
-set( LIB ${LIB} ${LAPACK} )
-
 
 find_package(OpenMP)
 if (OPENMP_FOUND)

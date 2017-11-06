@@ -4,7 +4,6 @@ using namespace std;
 
 int main(){
   srand(time(NULL));
-  LegendreFitting legendreFitting(2);
+  LegendreFitting legendreFitting;
   legendreFitting.run();
-
 }

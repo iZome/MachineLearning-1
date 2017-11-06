@@ -16,7 +16,7 @@ from matplotlib import pyplot as plt
 #target = np.loadtxt("target.csv", delimiter=",")
 #c = np.loadtxt("temp.csv", delimiter=",")
 
-p0 = np.loadtxt("p1.csv", delimiter=",")
+p0 = np.loadtxt("y.csv", delimiter=",")
 
 
 

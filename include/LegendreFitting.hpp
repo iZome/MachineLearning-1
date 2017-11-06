@@ -8,21 +8,27 @@
 class LegendreFitting{
 public:
   gsl_rng * r;  /* global generator */
-  LegendreFitting(int N);
+  LegendreFitting();
   ~LegendreFitting();
-  arma::vec sig;
-  std::vector<int> v;
   void run();
 
 
 
 private:
+  arma::vec sig;
+  std::vector<int> v;
   arma::vec x;
+  arma::vec y;
   gsl_vector* generateObservation(int Qf, int N, double sigma);
   arma::vec& generateBetas(int size);
   arma::vec betas;
   arma::vec& generateX(int N);
   arma::vec est;
+  arma::mat& generateModelMatrix(arma::vec& x, int Qf);
+  arma::vec& generateY(arma::vec& x, double sigma);
+  void generatePowerMatrix(arma::vec& x);
+  arma::mat X;
+  arma::mat powerMatrix;
   int rand_identifier;
   arma::vec l0;
   arma::vec l1;
@@ -48,15 +54,11 @@ private:
   arma::vec& p9(arma::vec& x);
   arma::vec& p10(arma::vec& x);
 
-  //arma::vec y;
-
   void setupRandomGenerator();
   void fitHypothesis(int N, double sigma, int order);
   double evaluateBias();
   arma::mat result;
 
-  int Qf{10};
-  int N{20};
 };
 
 #endif

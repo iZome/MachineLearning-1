@@ -9,13 +9,7 @@
 /home/tkleiven/Documents/UCT/MachineLearning/src/LegendreFitting.cpp
 LegendreFitting.hpp
 /home/tkleiven/Documents/UCT/MachineLearning/src/LegendreFitting.hpp
-legendre.h
-/home/tkleiven/Documents/UCT/MachineLearning/src/legendre.h
 armadillo
--
-stdlib.h
--
-stdio.h
 -
 gsl/gsl_rng.h
 -
@@ -23,23 +17,11 @@ gsl/gsl_randist.h
 -
 gsl/gsl_multifit.h
 -
-gsl/gsl_sf_legendre.h
--
 gsl/gsl_integration.h
--
-iomanip
--
-iostream
--
-boost/math/special_functions/binomial.hpp
--
-gsl/gsl_math.h
 -
 gsl/gsl_vector.h
 -
 gsl/gsl_matrix.h
--
-time.h
 -
 
 include/LegendreFitting.hpp
@@ -49,6 +31,4 @@ gsl/gsl_vector.h
 -
 gsl/gsl_rng.h
 -
-
-include/legendre.h
 
