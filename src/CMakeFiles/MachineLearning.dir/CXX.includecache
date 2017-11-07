@@ -25,7 +25,7 @@ gsl/gsl_vector.h
 -
 gsl/gsl_matrix.h
 -
-gsl/gsl_sf_legendre.h
+gsl/gsl_poly.h
 -
 
 include/Legendre.h

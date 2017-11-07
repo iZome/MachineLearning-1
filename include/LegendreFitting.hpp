@@ -12,6 +12,7 @@ public:
 
 
 private:
+  gsl_rng * r = gsl_rng_alloc (gsl_rng_taus);
   void setupRandomGenerator();
   void fitHypothesis(int N, double sigma, int order);
   void generatePowerMatrix(arma::vec& x);

@@ -7,14 +7,15 @@
 #include <gsl/gsl_integration.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
-#include <gsl/gsl_sf_legendre.h>
+#include <gsl/gsl_poly.h>
+
 
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.1, 1.4, 1000);
+  sig = arma::linspace(0.1, 1.4, 100);
   rand_identifier = rand()%10000000;
-  for(int i = 20; i<=120; i++){
+  for(int i = 20; i<120; i++){
     v.push_back(i);
   }
 
@@ -22,7 +23,7 @@ LegendreFitting::LegendreFitting(){
 }
 
 void LegendreFitting::run(){
-  int a = 10;
+  int a = 500;
 
   #pragma omp parallel for
   for( int k = 0; k < a; k++){
@@ -56,18 +57,16 @@ void LegendreFitting::run(){
 
 
 LegendreFitting::~LegendreFitting(){
-  //gsl_rng_free (r);
+  gsl_rng_free (r);
 }
 
 
 arma::vec& LegendreFitting::generateX(int N){
-  gsl_rng * r = gsl_rng_alloc (gsl_rng_taus);
   x.set_size(N);
+  gsl_rng_set(r, rand());
   for( int i = 0; i < N; i++ ){
-    gsl_rng_set (r, rand()%100000000);
     x(i) =  gsl_ran_flat(r, -1, 1 );
   }
-  gsl_rng_free (r);
   return x;
 }
 
@@ -79,19 +78,16 @@ arma::vec& LegendreFitting::generateY(arma::vec& x, double sigma, int order){
   y.set_size(x.n_elem);
   y.fill(0);
   modelMatrix.set_size(x.n_elem, order);
-
-  gsl_rng * r = gsl_rng_alloc (gsl_rng_taus);
+  gsl_rng_set(r, rand());
 
   double noise = 0;
   for(int q = 0; q < Qf; q++ ){
     for( int i = 0; i < x.n_elem; i++ ){
-      gsl_rng_set (r, rand()%100000000);
       if(q == (Qf - 1)){ noise = gsl_ran_gaussian(r, pow(sigma, 2)); }
       y(i) += betas(q) * Legendre::Pn (q, x(i)) + noise;
       if( q < (order) ){ modelMatrix(i, q) = Legendre::Pn(q, x_non_unif(i)); }
     }
   }
-  gsl_rng_free (r);
   return y;
 }
 
@@ -107,21 +103,21 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
   gsl_vector *c = gsl_vector_alloc(p);
   gsl_matrix *cov = gsl_matrix_alloc(p,p);
 
-  x = generateX(n);
-  x_non_unif = arma::linspace(-0.9999, 0.9999, n);
+  x = sort(generateX(n));
+  x_non_unif = arma::linspace(-1, 1, n);
   gsl_vector *y = gsl_vector_alloc(x.n_elem);
   y->data = generateY(x, sigma, p).memptr();
 
   gsl_matrix *X = gsl_matrix_alloc(n,p);
+  modelMatrix = modelMatrix.t();
   X->data = modelMatrix.memptr();
 
   double chisq;
-
   int lin = gsl_multifit_linear(X, y, c, cov, &chisq, w);
 
   #define C(i) (gsl_vector_get(c,(i)))
 
-  est.set_size(order);
+  est.set_size(p);
   for(int i = 0; i < order; i++){
     est(i) = C(i);
   }
@@ -132,13 +128,11 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
 }
 
 arma::vec& LegendreFitting::generateBetas(int size){
-  gsl_rng * r = gsl_rng_alloc (gsl_rng_taus);
   betas.set_size(size);
+  gsl_rng_set(r, rand());
   for( int i = 0; i < size; i++ ){
-    gsl_rng_set (r, rand()%100000000);
     betas(i) = gsl_ran_flat(r, -1, 1);
   }
-  gsl_rng_free (r);
   return betas;
 }
 
