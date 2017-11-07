@@ -3,4 +3,5 @@
 
 src/CMakeFiles/MachineLearning.dir/LegendreFitting.cpp.o
  /home/tkleiven/Documents/UCT/MachineLearning/src/LegendreFitting.cpp
+ include/Legendre.h
  include/LegendreFitting.hpp

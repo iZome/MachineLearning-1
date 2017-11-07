@@ -17,6 +17,5 @@ for filename in files:
         continue
 
 m /= len(files)
-m /= 100
 
 np.savetxt("averaged_matrix.csv", m, delimiter=",")

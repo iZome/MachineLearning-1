@@ -13,8 +13,6 @@ LegendreFitting.hpp
 include/LegendreFitting.hpp
 armadillo
 -
-gsl/gsl_vector.h
--
 gsl/gsl_rng.h
 -
 

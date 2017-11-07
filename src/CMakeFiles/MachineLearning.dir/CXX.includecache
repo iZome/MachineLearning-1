@@ -9,6 +9,8 @@
 /home/tkleiven/Documents/UCT/MachineLearning/src/LegendreFitting.cpp
 LegendreFitting.hpp
 /home/tkleiven/Documents/UCT/MachineLearning/src/LegendreFitting.hpp
+Legendre.h
+-
 armadillo
 -
 gsl/gsl_rng.h
@@ -23,11 +25,13 @@ gsl/gsl_vector.h
 -
 gsl/gsl_matrix.h
 -
+gsl/gsl_sf_legendre.h
+-
+
+include/Legendre.h
 
 include/LegendreFitting.hpp
 armadillo
--
-gsl/gsl_vector.h
 -
 gsl/gsl_rng.h
 -

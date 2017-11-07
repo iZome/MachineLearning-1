@@ -13,7 +13,7 @@ m = np.loadtxt("averaged_matrix.csv", delimiter=",")
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
-norm = mpl.colors.Normalize(vmin=-0.2, vmax=0.2)
+norm = mpl.colors.Normalize(vmin=-5, vmax=5)
 
 im = ax.imshow(m, cmap="coolwarm", norm=norm, interpolation='bessel',
 extent=[0.2,1.1, m.shape[0]+20, 20], aspect='auto', \
