@@ -17,7 +17,7 @@ ax = fig.add_subplot(1,1,1)
 norm = mpl.colors.Normalize(vmin=-0.2, vmax=0.2)
 
 im = ax.imshow(m, cmap="jet", norm=norm, interpolation='gaussian',
-extent=[20, m.shape[0]+20, 0.1,2.0],
+extent=[20, m.shape[1]+20, 0.1,2.0],
 aspect='auto', \
 #vmax=np.log(m.max()), vmin=-m.min()
 )

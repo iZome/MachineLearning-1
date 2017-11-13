@@ -12,18 +12,18 @@
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.2, 1.5, 100);
+  sig = arma::linspace(0, 1.5, 500);
   rand_identifier = rand()%10000000;
   for(int i = 20; i<120; i++){
     v.push_back(i);
   }
 
-  fitHypothesis(15, 0.5, 11);
+  //fitHypothesis(15, 0.5, 11);
   result.set_size(v.size(), sig.n_elem);
 }
 
 void LegendreFitting::run(){
-  int a = 100;
+  int a = 3000;
   double q = 0;
 
   #pragma omp parallel for
@@ -93,9 +93,9 @@ arma::vec& LegendreFitting::generateY(arma::vec& x, double sigma, int order){
       if( q < (order) ){ modelMatrix(i, q) = Legendre::Pn(q, x_non_unif(i)); }
     }
   }
-  target.save("target.csv", arma::csv_ascii);
-  x.save("x.csv", arma::csv_ascii);
-  y.save("y.csv", arma::csv_ascii);
+  //target.save("target.csv", arma::csv_ascii);
+  //x.save("x.csv", arma::csv_ascii);
+  //y.save("y.csv", arma::csv_ascii);
   return y;
 }
 
@@ -129,6 +129,7 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
     est(i) = C(i);
   }
 
+  /*
 
   arma::vec pred(x.n_elem);
   pred.fill(0);
@@ -140,7 +141,7 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
   }
 
   pred.save("pred.csv", arma::csv_ascii);
-
+  */
 
   gsl_multifit_linear_free(w); gsl_matrix_free (X);
   gsl_vector_free (y); gsl_vector_free (c);
