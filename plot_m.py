@@ -14,7 +14,7 @@ m = np.rot90(m, k=1)
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
-norm = mpl.colors.Normalize(vmin=-0.002, vmax=0.002)
+norm = mpl.colors.Normalize(vmin=-0.2, vmax=0.2)
 
 im = ax.imshow(m, cmap="jet", norm=norm,
  interpolation='gaussian',

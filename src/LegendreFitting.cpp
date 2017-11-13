@@ -12,7 +12,7 @@
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.2, 1.5, 1000);
+  sig = arma::linspace(0.2, 1.5, 500);
   rand_identifier = rand()%10000000;
   for(int i = 20; i<120; i++){
     v.push_back(i);
@@ -32,7 +32,7 @@ LegendreFitting::LegendreFitting(){
 
 
 void LegendreFitting::run(){
-  int a = 1000;
+  int a = 100;
   double q = 0;
 
   #pragma omp parallel for
@@ -95,7 +95,7 @@ void LegendreFitting::generateY(double sigma){
     for( int i = 0; i < x.n_elem; i++ ){
       if(q == (Qf - 1)){ noise = gsl_ran_gaussian(r, pow(sigma, 2)); }
       y(i) += betas(q) * Legendre::Pn (q, x(i)) + noise;
-      target(i) += betas(q) * Legendre::Pn (q, x(i));
+      //target(i) += betas(q) * Legendre::Pn (q, x(i));
     }
   }
   /*target.save("target.csv", arma::csv_ascii);
@@ -112,7 +112,7 @@ double LegendreFitting::fitHypothesis(int N, double sigma, int order){
   arma::vec coefficients = arma::polyfit(x,y,order);
   arma::vec pred = arma::polyval(coefficients, x);
 
-  generateX(N);
+  generateX(120);
   x = sort(x);
   generateY(sigma);
 
