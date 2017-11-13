@@ -9,21 +9,22 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_poly.h>
 
-
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.1, 1.4, 100);
+  sig = arma::linspace(0.2, 1.5, 100);
   rand_identifier = rand()%10000000;
   for(int i = 20; i<120; i++){
     v.push_back(i);
   }
 
+  fitHypothesis(15, 0.5, 11);
   result.set_size(v.size(), sig.n_elem);
 }
 
 void LegendreFitting::run(){
-  int a = 500;
+  int a = 100;
+  double q = 0;
 
   #pragma omp parallel for
   for( int k = 0; k < a; k++){
@@ -38,11 +39,11 @@ void LegendreFitting::run(){
     for( int i = 0; i < lq->v.size(); i++){
       for( int j = 0; j<lq->sig.n_elem; j++){
         lq->fitHypothesis(lq->v[i], lq->sig(j), 11);
-        float err10 = lq->evaluateBias();
+        double err10 = lq->evaluateBias();
 
         lq->fitHypothesis(lq->v[i], lq->sig(j), 3);
-        float err2 = lq->evaluateBias();
-        lq->result(i,j) +=  err10 - err2;
+        double err2 = lq->evaluateBias();
+        lq->result(i,j) = err10 - err2;
       }
     }
 
@@ -80,14 +81,21 @@ arma::vec& LegendreFitting::generateY(arma::vec& x, double sigma, int order){
   modelMatrix.set_size(x.n_elem, order);
   gsl_rng_set(r, rand());
 
+  arma::vec target(x.n_elem);
+  target.fill(0);
+
   double noise = 0;
   for(int q = 0; q < Qf; q++ ){
     for( int i = 0; i < x.n_elem; i++ ){
       if(q == (Qf - 1)){ noise = gsl_ran_gaussian(r, pow(sigma, 2)); }
       y(i) += betas(q) * Legendre::Pn (q, x(i)) + noise;
+      target(i) += betas(q) * Legendre::Pn (q, x(i));
       if( q < (order) ){ modelMatrix(i, q) = Legendre::Pn(q, x_non_unif(i)); }
     }
   }
+  target.save("target.csv", arma::csv_ascii);
+  x.save("x.csv", arma::csv_ascii);
+  y.save("y.csv", arma::csv_ascii);
   return y;
 }
 
@@ -114,13 +122,25 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
 
   double chisq;
   int lin = gsl_multifit_linear(X, y, c, cov, &chisq, w);
-
   #define C(i) (gsl_vector_get(c,(i)))
 
   est.set_size(p);
   for(int i = 0; i < order; i++){
     est(i) = C(i);
   }
+
+
+  arma::vec pred(x.n_elem);
+  pred.fill(0);
+
+  for( int i = 0; i < est.n_elem; i++ ){
+    for( int v = 0; v < x.n_elem; v++ ){
+      pred(v) += est(i) * Legendre::Pn(i, x(v));
+    }
+  }
+
+  pred.save("pred.csv", arma::csv_ascii);
+
 
   gsl_multifit_linear_free(w); gsl_matrix_free (X);
   gsl_vector_free (y); gsl_vector_free (c);
@@ -141,7 +161,7 @@ double f (double x, void * params) {
   arma::vec difference = *(arma::vec *)params;
   double result = difference(0);
   for( int i = 1; i < difference.n_elem; i++ ){
-    result += difference(i)*pow(x,i);
+    result += difference(i) * Legendre::Pn(i, x);
   }
 
   return pow(result,2);

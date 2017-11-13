@@ -11,6 +11,7 @@ for filename in files:
     print(filename)
     try:
         data = np.loadtxt(path+"/"+filename, delimiter=",")
+        print(np.max(data))
         m += data
     except Exception as exc:
         print(exc)

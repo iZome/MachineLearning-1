@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_FLAGS =  -fopenmp  
 
-CXX_DEFINES = 
+CXX_DEFINES = -DARMA_NO_DEBUG
 
 CXX_INCLUDES = -I/home/tkleiven/Documents/UCT/MachineLearning/include 
 

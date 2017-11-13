@@ -9,20 +9,24 @@ mpl.rcParams['font.size'] = 16
 from matplotlib import pyplot as plt
 
 m = np.loadtxt("averaged_matrix.csv", delimiter=",")
+m = np.rot90(m, k=1)
 
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
 norm = mpl.colors.Normalize(vmin=-0.2, vmax=0.2)
 
-im = ax.imshow(m, cmap="nipy_spectral", norm=norm, interpolation='bessel',
-extent=[0.2,1.1, m.shape[0]+20, 20], aspect='auto', \
+im = ax.imshow(m, cmap="jet", norm=norm, interpolation='gaussian',
+extent=[20, m.shape[0]+20, 0.1,2.0],
+aspect='auto', \
 #vmax=np.log(m.max()), vmin=-m.min()
 )
 
+
+
 plt.colorbar(im)
-ax.set_xlabel("\$\sigma$")
-ax.set_ylabel("\$N\$")
+ax.set_ylabel("\$\sigma$")
+ax.set_xlabel("\$N\$")
 ax.spines["right"].set_visible(False)
 ax.spines["top"].set_visible(False)
 ax.spines["left"].set_visible(False)
