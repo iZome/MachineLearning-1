@@ -9,20 +9,16 @@ public:
   ~LegendreFitting();
   void run();
 
-
-
 private:
   gsl_rng * r = gsl_rng_alloc (gsl_rng_taus);
   void setupRandomGenerator();
-  void fitHypothesis(int N, double sigma, int order);
-  void generatePowerMatrix(arma::vec& x);
-  double evaluateBias();
+  double fitHypothesis(int N, double sigma, int order);
   int rand_identifier;
 
-  arma::mat& generateModelMatrix(double value, int i, int j);
   arma::vec& generateBetas(int size);
-  arma::vec& generateX(int N);
-  arma::vec& generateY(arma::vec& x, double sigma, int order);
+  void generateX(int N);
+  void generateY(double sigma);
+
   std::vector<int> v;
   arma::vec sig;
   arma::vec x;
@@ -30,6 +26,7 @@ private:
   arma::vec y;
   arma::vec betas;
   arma::vec est;
+  arma::vec newdata;
 
   arma::mat modelMatrix;
   arma::mat result;

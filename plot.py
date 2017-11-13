@@ -19,21 +19,19 @@ p0 = np.loadtxt("y.csv", delimiter=",")
 p1 = np.loadtxt("pred.csv", delimiter=",")
 x = np.loadtxt("x.csv", delimiter=",")
 target = np.loadtxt("target.csv", delimiter=",")
-
-
+#pred_in = np.loadtxt("pred_in.csv", delimiter=",")
+#nx = np.loadtxt("newx.csv", delimiter=",")
 
 
 
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
-#ax.plot(x, h10, color="black")a
+ax.plot(x, p1, color="black")
 ax.scatter(x, p0, color="blue")
-ax.plot(x, p1, color="red")
+#ax.plot(nx, p1, color="red")
 ax.plot(x, target, color="green")
-#ax.scatter(x, y, label="\$E_{val}\$", color="red")
-#ax.plot(x, target, label="\$E_{val}\$", color="pink")
-#ax.plot(x, c, label="\$E_{val}\$", color="orange")
+#ax.plot(pred_in, color="pink")
 
 
 

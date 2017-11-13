@@ -14,10 +14,11 @@ m = np.rot90(m, k=1)
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
-norm = mpl.colors.Normalize(vmin=-0.2, vmax=0.2)
+norm = mpl.colors.Normalize(vmin=-0.002, vmax=0.002)
 
-im = ax.imshow(m, cmap="jet", norm=norm, interpolation='gaussian',
-extent=[20, m.shape[0]+20, 0.1,2.0],
+im = ax.imshow(m, cmap="jet", norm=norm,
+ interpolation='gaussian',
+extent=[20, m.shape[1]+20, 0.1,2.0],
 aspect='auto', \
 #vmax=np.log(m.max()), vmin=-m.min()
 )

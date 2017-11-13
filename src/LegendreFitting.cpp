@@ -12,18 +12,27 @@
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.2, 1.5, 100);
+  sig = arma::linspace(0.2, 1.5, 1000);
   rand_identifier = rand()%10000000;
   for(int i = 20; i<120; i++){
     v.push_back(i);
   }
-
-  fitHypothesis(15, 0.5, 11);
   result.set_size(v.size(), sig.n_elem);
+
+  double err10 = 0;
+  double err2 = 0;
+  double t = 1;
+
+  //err10 += fitHypothesis(50, 0.5, 10);
+  //err2  += fitHypothesis(50, 0.5, 2);
+
+  //cout << "Err 10: " << err10/t << endl;
+  //cout << "Err 2:  " << err2/t << endl;
 }
 
+
 void LegendreFitting::run(){
-  int a = 100;
+  int a = 1000;
   double q = 0;
 
   #pragma omp parallel for
@@ -38,11 +47,9 @@ void LegendreFitting::run(){
 
     for( int i = 0; i < lq->v.size(); i++){
       for( int j = 0; j<lq->sig.n_elem; j++){
-        lq->fitHypothesis(lq->v[i], lq->sig(j), 11);
-        double err10 = lq->evaluateBias();
+        double err10 = lq->fitHypothesis(lq->v[i], lq->sig(j), 10);
+        double err2 = lq->fitHypothesis(lq->v[i], lq->sig(j), 2);
 
-        lq->fitHypothesis(lq->v[i], lq->sig(j), 3);
-        double err2 = lq->evaluateBias();
         lq->result(i,j) = err10 - err2;
       }
     }
@@ -62,23 +69,22 @@ LegendreFitting::~LegendreFitting(){
 }
 
 
-arma::vec& LegendreFitting::generateX(int N){
+void LegendreFitting::generateX(int N){
+  x.fill(0);
   x.set_size(N);
   gsl_rng_set(r, rand());
   for( int i = 0; i < N; i++ ){
     x(i) =  gsl_ran_flat(r, -1, 1 );
   }
-  return x;
 }
 
 
-arma::vec& LegendreFitting::generateY(arma::vec& x, double sigma, int order){
+void LegendreFitting::generateY(double sigma){
   int Qf = 11;
   betas = generateBetas(Qf);
 
   y.set_size(x.n_elem);
   y.fill(0);
-  modelMatrix.set_size(x.n_elem, order);
   gsl_rng_set(r, rand());
 
   arma::vec target(x.n_elem);
@@ -90,61 +96,29 @@ arma::vec& LegendreFitting::generateY(arma::vec& x, double sigma, int order){
       if(q == (Qf - 1)){ noise = gsl_ran_gaussian(r, pow(sigma, 2)); }
       y(i) += betas(q) * Legendre::Pn (q, x(i)) + noise;
       target(i) += betas(q) * Legendre::Pn (q, x(i));
-      if( q < (order) ){ modelMatrix(i, q) = Legendre::Pn(q, x_non_unif(i)); }
     }
   }
-  target.save("target.csv", arma::csv_ascii);
+  /*target.save("target.csv", arma::csv_ascii);
   x.save("x.csv", arma::csv_ascii);
-  y.save("y.csv", arma::csv_ascii);
-  return y;
+  y.save("y.csv", arma::csv_ascii);*/
 }
 
 
+double LegendreFitting::fitHypothesis(int N, double sigma, int order){
+  generateX(N);
+  x = sort(x);
+  generateY(sigma);
 
+  arma::vec coefficients = arma::polyfit(x,y,order);
+  arma::vec pred = arma::polyval(coefficients, x);
 
-void LegendreFitting::fitHypothesis(int N, double sigma, int order){
-  const size_t n = N;
-  const size_t p = order;
+  generateX(N);
+  x = sort(x);
+  generateY(sigma);
 
-  gsl_multifit_linear_workspace * w = gsl_multifit_linear_alloc (n, p);
-
-  gsl_vector *c = gsl_vector_alloc(p);
-  gsl_matrix *cov = gsl_matrix_alloc(p,p);
-
-  x = sort(generateX(n));
-  x_non_unif = arma::linspace(-1, 1, n);
-  gsl_vector *y = gsl_vector_alloc(x.n_elem);
-  y->data = generateY(x, sigma, p).memptr();
-
-  gsl_matrix *X = gsl_matrix_alloc(n,p);
-  modelMatrix = modelMatrix.t();
-  X->data = modelMatrix.memptr();
-
-  double chisq;
-  int lin = gsl_multifit_linear(X, y, c, cov, &chisq, w);
-  #define C(i) (gsl_vector_get(c,(i)))
-
-  est.set_size(p);
-  for(int i = 0; i < order; i++){
-    est(i) = C(i);
-  }
-
-
-  arma::vec pred(x.n_elem);
-  pred.fill(0);
-
-  for( int i = 0; i < est.n_elem; i++ ){
-    for( int v = 0; v < x.n_elem; v++ ){
-      pred(v) += est(i) * Legendre::Pn(i, x(v));
-    }
-  }
-
-  pred.save("pred.csv", arma::csv_ascii);
-
-
-  gsl_multifit_linear_free(w); gsl_matrix_free (X);
-  gsl_vector_free (y); gsl_vector_free (c);
-  gsl_matrix_free (cov);
+  arma::vec predict = arma::polyval(coefficients, x);
+  //predict.save("pred.csv", arma::csv_ascii);
+  return pow(arma::mean(predict - y), 2);
 }
 
 arma::vec& LegendreFitting::generateBetas(int size){
@@ -154,36 +128,4 @@ arma::vec& LegendreFitting::generateBetas(int size){
     betas(i) = gsl_ran_flat(r, -1, 1);
   }
   return betas;
-}
-
-
-double f (double x, void * params) {
-  arma::vec difference = *(arma::vec *)params;
-  double result = difference(0);
-  for( int i = 1; i < difference.n_elem; i++ ){
-    result += difference(i) * Legendre::Pn(i, x);
-  }
-
-  return pow(result,2);
-}
-
-double LegendreFitting::evaluateBias(){
-
-  gsl_integration_workspace * w
-    = gsl_integration_workspace_alloc (1000);
-
-  double result, error;
-
-  if( est.n_elem != betas.n_elem ) { est.reshape(betas.n_elem, 1); }
-  arma::vec difference = est - betas;
-
-  gsl_function F;
-  F.function = &f;
-  F.params = &difference;
-
-  gsl_integration_qags (&F, -1, 1, 0, 1e-4, 1000,
-                        w, &result, &error);
-
-  gsl_integration_workspace_free (w);
-  return result;
 }
