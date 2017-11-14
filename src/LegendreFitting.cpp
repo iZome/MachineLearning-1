@@ -18,7 +18,7 @@ LegendreFitting::LegendreFitting(){
     v.push_back(i);
   }
 
-  //fitHypothesis(15, 0.5, 11);
+  //fitHypothesis(20, 0.5, 11);
   result.set_size(v.size(), sig.n_elem);
 }
 
@@ -38,11 +38,8 @@ void LegendreFitting::run(){
 
     for( int i = 0; i < lq->v.size(); i++){
       for( int j = 0; j<lq->sig.n_elem; j++){
-        lq->fitHypothesis(lq->v[i], lq->sig(j), 11);
-        double err10 = lq->evaluateBias();
-
-        lq->fitHypothesis(lq->v[i], lq->sig(j), 3);
-        double err2 = lq->evaluateBias();
+        double err10 = lq->fitHypothesis(lq->v[i], lq->sig(j), 11);
+        double err2 = lq->fitHypothesis(lq->v[i], lq->sig(j), 3);
         lq->result(i,j) = err10 - err2;
       }
     }
@@ -81,28 +78,30 @@ arma::vec& LegendreFitting::generateY(arma::vec& x, double sigma, int order){
   modelMatrix.set_size(x.n_elem, order);
   gsl_rng_set(r, rand());
 
-  arma::vec target(x.n_elem);
+  target.set_size(x.n_elem);
   target.fill(0);
 
   double noise = 0;
   for(int q = 0; q < Qf; q++ ){
     for( int i = 0; i < x.n_elem; i++ ){
       if(q == (Qf - 1)){ noise = gsl_ran_gaussian(r, pow(sigma, 2)); }
-      y(i) += betas(q) * Legendre::Pn (q, x(i)) + noise;
-      target(i) += betas(q) * Legendre::Pn (q, x(i));
+      double legendre = Legendre::Pn (q, x(i));
+      y(i) += betas(q) * legendre + noise;
+      target(i) += betas(q) * legendre;
       if( q < (order) ){ modelMatrix(i, q) = Legendre::Pn(q, x_non_unif(i)); }
     }
   }
-  //target.save("target.csv", arma::csv_ascii);
-  //x.save("x.csv", arma::csv_ascii);
-  //y.save("y.csv", arma::csv_ascii);
+  /*
+  target.save("target.csv", arma::csv_ascii);
+  x.save("x.csv", arma::csv_ascii);
+  y.save("y.csv", arma::csv_ascii);*/
   return y;
 }
 
 
 
 
-void LegendreFitting::fitHypothesis(int N, double sigma, int order){
+double LegendreFitting::fitHypothesis(int N, double sigma, int order){
   const size_t n = N;
   const size_t p = order;
 
@@ -129,8 +128,6 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
     est(i) = C(i);
   }
 
-  /*
-
   arma::vec pred(x.n_elem);
   pred.fill(0);
 
@@ -140,12 +137,13 @@ void LegendreFitting::fitHypothesis(int N, double sigma, int order){
     }
   }
 
-  pred.save("pred.csv", arma::csv_ascii);
-  */
+  //pred.save("pred.csv", arma::csv_ascii);
 
   gsl_multifit_linear_free(w); gsl_matrix_free (X);
   gsl_vector_free (y); gsl_vector_free (c);
   gsl_matrix_free (cov);
+
+  return arma::mean(arma::pow(pred - target, 2));
 }
 
 arma::vec& LegendreFitting::generateBetas(int size){
@@ -155,36 +153,4 @@ arma::vec& LegendreFitting::generateBetas(int size){
     betas(i) = gsl_ran_flat(r, -1, 1);
   }
   return betas;
-}
-
-
-double f (double x, void * params) {
-  arma::vec difference = *(arma::vec *)params;
-  double result = difference(0);
-  for( int i = 1; i < difference.n_elem; i++ ){
-    result += difference(i) * Legendre::Pn(i, x);
-  }
-
-  return pow(result,2);
-}
-
-double LegendreFitting::evaluateBias(){
-
-  gsl_integration_workspace * w
-    = gsl_integration_workspace_alloc (1000);
-
-  double result, error;
-
-  if( est.n_elem != betas.n_elem ) { est.reshape(betas.n_elem, 1); }
-  arma::vec difference = est - betas;
-
-  gsl_function F;
-  F.function = &f;
-  F.params = &difference;
-
-  gsl_integration_qags (&F, -1, 1, 0, 1e-4, 1000,
-                        w, &result, &error);
-
-  gsl_integration_workspace_free (w);
-  return result;
 }
