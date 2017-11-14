@@ -12,7 +12,7 @@
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.2, 1.7, 200);
+  sig = arma::linspace(0.2, 1.5, 1000);
   rand_identifier = rand()%10000000;
   for(int i = 20; i<120; i++){
     v.push_back(i);
@@ -23,8 +23,8 @@ LegendreFitting::LegendreFitting(){
   double err2 = 0;
   double t = 1;
 
-  //err10 += fitHypothesis(25, 0.2, 10);
-  //err2  += fitHypothesis(50, 0.5, 2);
+  //err10 += fitHypothesis(40, 0.2, 2);
+  //err2  += fitHypothesis(40, 0.2, 2);
 
   //cout << "Err 10: " << err10/t << endl;
   //cout << "Err 2:  " << err2/t << endl;
@@ -112,18 +112,18 @@ double LegendreFitting::fitHypothesis(int N, double sigma, int order){
   generateY(sigma);
 
   arma::vec coefficients = arma::polyfit(x,y,order);
-  arma::vec predict = arma::polyval(coefficients, x);
 
-  //predict.save("pred.csv", arma::csv_ascii);
-  /*generateX(120);
+  generateX(80);
   x = sort(x);
-  generateY(sigma);*/
+  generateY(sigma);
+
+  arma::vec predict = arma::polyval(coefficients, x);
   return arma::mean(arma::pow(predict - target, 2));
 }
 
 arma::vec& LegendreFitting::generateBetas(int size){
   betas.set_size(size);
-  gsl_rng_set(r, rand());
+  gsl_rng_set(r, 10);
   for( int i = 0; i < size; i++ ){
     betas(i) = gsl_ran_flat(r, -1, 1);
   }

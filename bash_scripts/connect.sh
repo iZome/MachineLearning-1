@@ -1,2 +1,2 @@
 source params.sh
-ssh -X thomklei@$ip
+ssh -t thomklei@$ip "cd /media/thomklei/stud/ML ; bash"
