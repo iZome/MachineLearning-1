@@ -27,6 +27,7 @@ private:
   arma::vec betas;
   arma::vec est;
   arma::vec newdata;
+  arma::vec target;
 
   arma::mat modelMatrix;
   arma::mat result;

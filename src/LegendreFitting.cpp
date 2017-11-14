@@ -12,7 +12,7 @@
 using namespace std;
 
 LegendreFitting::LegendreFitting(){
-  sig = arma::linspace(0.2, 1.5, 500);
+  sig = arma::linspace(0.2, 1.7, 200);
   rand_identifier = rand()%10000000;
   for(int i = 20; i<120; i++){
     v.push_back(i);
@@ -23,7 +23,7 @@ LegendreFitting::LegendreFitting(){
   double err2 = 0;
   double t = 1;
 
-  //err10 += fitHypothesis(50, 0.5, 10);
+  //err10 += fitHypothesis(25, 0.2, 10);
   //err2  += fitHypothesis(50, 0.5, 2);
 
   //cout << "Err 10: " << err10/t << endl;
@@ -32,7 +32,7 @@ LegendreFitting::LegendreFitting(){
 
 
 void LegendreFitting::run(){
-  int a = 100;
+  int a = 10000;
   double q = 0;
 
   #pragma omp parallel for
@@ -87,20 +87,22 @@ void LegendreFitting::generateY(double sigma){
   y.fill(0);
   gsl_rng_set(r, rand());
 
-  arma::vec target(x.n_elem);
+  target.set_size(x.n_elem);
   target.fill(0);
 
   double noise = 0;
   for(int q = 0; q < Qf; q++ ){
     for( int i = 0; i < x.n_elem; i++ ){
       if(q == (Qf - 1)){ noise = gsl_ran_gaussian(r, pow(sigma, 2)); }
-      y(i) += betas(q) * Legendre::Pn (q, x(i)) + noise;
-      //target(i) += betas(q) * Legendre::Pn (q, x(i));
+      double legendre = Legendre::Pn (q, x(i));
+      y(i) += betas(q) * legendre + noise;
+      target(i) += betas(q) * legendre;
     }
   }
-  /*target.save("target.csv", arma::csv_ascii);
-  x.save("x.csv", arma::csv_ascii);
-  y.save("y.csv", arma::csv_ascii);*/
+
+  //target.save("target.csv", arma::csv_ascii);
+  //x.save("x.csv", arma::csv_ascii);
+  //y.save("y.csv", arma::csv_ascii);
 }
 
 
@@ -110,15 +112,13 @@ double LegendreFitting::fitHypothesis(int N, double sigma, int order){
   generateY(sigma);
 
   arma::vec coefficients = arma::polyfit(x,y,order);
-  arma::vec pred = arma::polyval(coefficients, x);
-
-  generateX(120);
-  x = sort(x);
-  generateY(sigma);
-
   arma::vec predict = arma::polyval(coefficients, x);
+
   //predict.save("pred.csv", arma::csv_ascii);
-  return pow(arma::mean(predict - y), 2);
+  /*generateX(120);
+  x = sort(x);
+  generateY(sigma);*/
+  return arma::mean(arma::pow(predict - target, 2));
 }
 
 arma::vec& LegendreFitting::generateBetas(int size){

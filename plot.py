@@ -30,7 +30,7 @@ ax = fig.add_subplot(1,1,1)
 ax.plot(x, p1, color="black")
 ax.scatter(x, p0, color="blue")
 #ax.plot(nx, p1, color="red")
-ax.plot(x, target, color="green")
+ax.plot(x, target, color="red")
 #ax.plot(pred_in, color="pink")
 
 
