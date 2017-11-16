@@ -1,0 +1,227 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{mathtools}
+
+\newlength\Colsep
+\setlength\Colsep{10pt}
+
+\usepackage{subfig}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{subfloat}
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+
+\usepackage[style=authoryear-comp, backend=biber]{biblatex}
+\usepackage{fontspec}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\me}{\mathrm{e}}
+\DeclareMathOperator{\EX}{\mathbb{E}}
+
+\graphicspath{{./figures/}}
+
+\begin{document}
+\setlength\parindent{0pt}
+
+
+\title{Assignment 2 - KLVTHO001}
+\clearpage\maketitle
+\thispagestyle{empty}
+
+
+\newpage
+\clearpage
+\setcounter{page}{1}
+
+\section{Introduction}
+Many differnet learning algorithms are used in Statistical Sciences in order
+to classify hand-written digits. This project is focusing on a number of these
+learning approaches, namely Support Vector Machine, Neural Nework and
+Tree Based Methods. The dataset provided for this classification problem contains
+a response variable which indicated whether a digit is even or odd
+and 784 potential predictor variables which represents various digit properties.
+All the aforementioned approches are fit to the dataset and the best
+predictive algorithm is decided.
+
+\section{Theory}
+\subsection{Tree Based Methods}
+Bagging, Boosting and Random Forests are all ensemble methods and meta learners. The key
+difference between Bagging and Boosting lies in how the two approches use the training set. Bagging
+is simply just bootstrap aggregation, which is all about choosing a random sample with replacement,
+train the algorithm on each sample seperately and average the predictions in the end. Furthermore,
+the key difference between Bagging and Random Forest is that Random Forest has the ability to
+improve variance by reducing the correlation between each tree in the forest. This is accomplished
+by randomly selecting a feature-subset for each split at each node. This is the main reason why
+Random Forests generally will generalize better as the number of trees grows. Furthermore,
+The key difference between these methods is that a Random Forest and Bagging is trained
+in parallel, i.e. each model is build independantly. In contrast,
+Boosting builts the models in a sequential way, making each model dependant on
+the previous ones. \\
+
+\subsection{Support Vector Machine }
+Support Vector Machine is a supervised binary classification algorithm. It
+attempts to find a hyperplane in a high dimensional space that can seperate
+the two classes of data by the largest margin. In order to achieve this, the
+Support Vector Machine will use a kernel to find the hyperplane that separates
+the data best. \\
+
+\subsection{Artificial Neural Network}
+A neural network is also a supervised classifier. The network consists
+of several components interconnected and organized in layers. Each layer
+consists of neurons, which itself is a simple classifier. The input data
+is fed to the network and will pass through in a forward-feed manner.
+Furthermore, the training part is often done with the \textit{Back Propagation}
+algorithm which helps find the optimal weights of each neuron in
+the layers of the network.
+
+\section{Method}
+\subsection{Tree Based Methods}
+The \texttt{randomForest} and \texttt{gbm}-packages is used for training
+the Tree Based Methods. Furthermore,
+the models trained can be viewed in Table {\ref{table:trained_trees}}\\
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l*{7}{c}r}
+  Method              & Number of trees & Mtry & Interaction Depth & Learning Rate & Bag Fraction & CV Folds\\
+  \hline
+  Random Forest & 500 \\
+  Bagging & 500 & 32 \\
+  Boosting & 50.000 &  & 2 & 0.001 & 1 & 10 \\
+  Regression Tree & 1 &  &   &   &  & 10  \\
+\end{tabular}
+\caption{Trained Models. If a field is empty, the default package settings are used.}
+\label{table:spam_models}
+\end{table}
+
+\subsection{Support Vector Machine}
+A radial based kernel is used for the Support Vector Machine. In addition,
+Principal Component Analysis is performed in order to reduce the
+dimensionality of the problem. Furthermore, the \texttt{caret}-package in
+\texttt{R} is used to fit a model to the dataset. For the Support Vector Machine
+a number of different soft constraints where tested,
+thereof~$C$~$\in\ \{0, 0.5, 1, 1.5, 2, 3\}$ \\
+
+\subsection{Artificial Neural Network}
+For the Neural Network, the \texttt{h2o}-package is used in order to
+classify the digits. A number of different hyperparameters are tested
+using a grid and the best trained model is then used for further
+analysis. The trained models for the  Neural Network the models can
+be seen Table {\ref{table:trained_models_nn}}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l*{3}{c}r}
+  Parameters & Value \\
+  \hline
+  Epochs & 5, 10\\
+  Hidden & [512, 128], [218,42]\\
+  Rate & 0.005, 0.01\\
+  Input Dropout Ratio & 0.1\\
+  Nfolds & 10\\
+  Stopping Rounds & 3\\
+  Stopping Metric & Misclassification\\
+  Stopping Tolerance & 0.02\\
+\end{tabular}
+\caption{Trained Models}
+\label{table:trained_models_nn}
+\end{table}
+
+Where $Ephocs$  is the number of times to iterate (stream) the dataset,
+$Hidden$ is the hidden layer sizes, $Rate$ is the
+the learning rate, $Input\ Droput\ Ratio$ is
+specifying the input layer dropout ratio to improve generalization,
+$Nfolds$ is the the number of folds for cross-validation. Furthermore,
+the network stops training when misclassification rate,
+$Stopping\ Metric$, does not improve for the specified number of
+training rounds, based on a simple moving average. Lastly,
+the $Stopping\ Tolerance$
+specifies the relative tolerance for the metric-based
+stopping to stop training if the improvement is less than this value. \\
+
+
+
+
+
+
+\section{Results}
+\begin{figure}[H]
+  \subfloat[][]{
+  \def\svgwidth{0.5\linewidth}
+  {\input{figures/cumsum.ps_tex}}
+  \label{fig:cumsum}}
+  \hfill
+  \subfloat{\def\svgwidth{0.5\linewidth}
+  {\input{figures/pc.ps_tex}}
+  \label{fig:pc1_pc3}} \\
+  \subfloat{ \def\svgwidth{0.5\linewidth}
+  {\input{figures/grid_acc.ps_tex}}
+  \label{fig:grid_acc}}
+  \hfill
+  \subfloat{\def\svgwidth{0.5\linewidth}
+  {\input{figures/e_out.ps_tex}}
+  \label{fig:num_componentes}}
+\end{figure}
+
+\section{Results}
+\begin{figure}[H]
+  \subfloat[][]{
+  \def\svgwidth{0.5\linewidth}
+  {\input{figures/bag_rf_cv.ps_tex}}
+  \label{fig:cumsum}}
+  \hfill
+  \subfloat[][]{
+  \def\svgwidth{0.5\linewidth}
+  {\input{figures/mse_grid.ps_tex}}
+  \label{fig:cumsum}}
+  \hfill
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l*{4}{c}r}
+  Class & Even & Odd & Total & Error Rate\\
+  \hline
+  Even & 222 & 17 & 239 & 0.034 \\
+  Odd & 20 & 241 & 261 & 0.04\\
+  Total & 242 & 258 & 500 & 0.074\\
+\end{tabular}
+\caption{Random Forest confusion matrix}
+\label{table:rf_conf}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l*{4}{c}r}
+  Class              & Even & Odd & Total & Error Rate\\
+  \hline
+  Even & 214 & 32 & 246 & 0.064 \\
+  Odd & 28 & 226 & 254 & 0.056\\
+  Total & 242 & 258 & 500 & 0.12\\
+\end{tabular}
+\caption{Bagging confusion matrix}
+\label{table:bag_conf}
+\end{table}
+
+
+
+\section{Discussion}
+
+
+\section{Appendix}
+\begin{verbatim}
+
+
+\end{verbatim}
+
+
+\end{document}
