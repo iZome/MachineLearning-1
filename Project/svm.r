@@ -1,3 +1,4 @@
+rm(list=ls())
 library(readr)
 library(caret)
 
@@ -34,7 +35,7 @@ plot(result$num,result$cum,type="b",xlim=c(0,100),
      xlab="Number of Components",ylab="Variance Explained")
 abline(v=25,lty=2)
 
-train_score <- as.matrix(train) %*% train_pc$rotation[,1:8]
+train_score <- as.matrix(train) %*% train_pc$rotation[,1:10]
 train <- cbind(label,as.data.frame(train_score))
 
 colors <- rainbow(length(unique(train$label)))
@@ -44,8 +45,8 @@ text(train$PC1,train$PC2,label=train$label,col=colors[train$label])
 
 set.seed(1492)
 # Use the expand.grid to specify the search space	
-grid <- expand.grid(sigma = c(.01, .015, 0.2),
-                    C = c(0.75, 0.9, 1, 1.1, 1.25, 2, 3)
+grid <- expand.grid(sigma = c(.2),
+                    C = c(2)
 )
 
 svm_mdl <- train(label~.,data=train,
@@ -55,13 +56,13 @@ svm_mdl <- train(label~.,data=train,
                  tuneGrid=grid)
 svm_mdl
 
-pred <- predict(svm_mdl$finalModel,train_score,type="response")
+svpred <- predict(svm_mdl$finalModel,train_score,type="response")
 prediction <- data.frame(ImageId=1:nrow(train),Label=pred)
 confusionMatrix(pred, label)
 
 label_test <- test$Digit
 test <- test[,var[-1]]/255
-test <- as.matrix(test) %*% train_pc$rotation[,1:8]
+test <- as.matrix(test) %*% train_pc$rotation[,1:10]
 test <- as.data.frame(test)
 
 pred <- predict(svm_mdl$finalModel,test,type="response")
@@ -123,10 +124,10 @@ getBestComponents <- function(){
     confusionMatrix(pred_train, label)
     
     acc_in[i] <- confusionMatrix(pred_train, label)$overall[1]
-    acc_out[i] <- confusionMatrix(pred, label_test)$overall[1]
+    acc_out[i] <- mean(svm_mdl$resample[,1])
     print(i)
     }
-  write.table(acc_ins, sprintf("data/acc_in.csv"), col.names=FALSE,row.names=FALSE, sep=",", append=F)
+  write.table(acc_in, sprintf("data/acc_in.csv"), col.names=FALSE,row.names=FALSE, sep=",", append=F)
   write.table(acc_out, sprintf("data/acc_out.csv"), col.names=FALSE,row.names=FALSE, sep=",", append=F)
 }
 

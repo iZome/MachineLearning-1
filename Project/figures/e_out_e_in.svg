@@ -42,12 +42,12 @@
      id="namedview304"
      showgrid="false"
      inkscape:zoom="1.16"
-     inkscape:cx="373.19375"
-     inkscape:cy="282.82758"
+     inkscape:cx="18.021333"
+     inkscape:cy="279.3793"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="xtick_3" />
+     inkscape:current-layer="text_18" />
   <defs
      id="defs4">
     <style
@@ -532,7 +532,7 @@
              transform="rotate(-90)"
              x="-216"
              y="28.227501"
-             id="text264">$\text{Misclassification\ Rate}$</text>
+             id="text264">$\text{Error}$</text>
         </g>
       </g>
       <g
@@ -568,7 +568,7 @@
              style="font-style:normal;font-weight:400;font-size:19.20000076px;font-family:'Bitstream Vera Sans';text-anchor:start;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
              x="329.952"
              y="75.069"
-             id="text278">$E_{out}$</text>
+             id="text278">$CV_{error}$</text>
         </g>
         <g
            id="line2d_21"

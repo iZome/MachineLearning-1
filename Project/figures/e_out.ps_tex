@@ -57,8 +57,8 @@
     \put(0.51250002,0.00096787){\makebox(0,0)[b]{\smash{$\text{Number\ of\ Components}$}}}%
     \put(0.11805556,0.18733507){\makebox(0,0)[rb]{\smash{0.2}}}%
     \put(0.11805556,0.42733508){\makebox(0,0)[rb]{\smash{0.6}}}%
-    \put(0.04900608,0.375){\rotatebox{90}{\makebox(0,0)[b]{\smash{$\text{Misclassification\ Rate}$}}}}%
-    \put(0.57283333,0.61967187){\makebox(0,0)[lb]{\smash{$E_{out}$}}}%
+    \put(0.04900608,0.375){\rotatebox{90}{\makebox(0,0)[b]{\smash{$\text{Error}$}}}}%
+    \put(0.57283333,0.61967187){\makebox(0,0)[lb]{\smash{$CV_{error}$}}}%
     \put(0.57283333,0.57440105){\makebox(0,0)[lb]{\smash{$E_{in}$}}}%
   \end{picture}%
 \endgroup%

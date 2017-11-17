@@ -7,7 +7,7 @@ localH2O = h2o.init(nthreads=-1,            ## -1: use all available threads
                     max_mem_size = "2G")
 h2o.removeAll()
 
-data <- read.csv("Train_Digits_20171108.csv", nrow=100)
+data <- read.csv("Train_Digits_20171108.csv")
 data$Digit <- data$Digit%%2
 data$Digit <- as.factor(data$Digit)
 
@@ -65,3 +65,18 @@ print(h2o.performance(best_model, newdata = df_test))
 plot(grid@summary_table$mean_per_class_error)
 write.table(as.numeric(grid@summary_table$mse), sprintf("data/mse_grid_nn.csv"), col.names=FALSE,row.names=FALSE, sep=",")
 
+
+makeConfusionMatrix <- function(pred, true){
+  mod <- confusionMatrix(pred,true)
+  confM <- mod$table
+  confM <- rbind(confM, Totals = rowSums(confM))
+  sums <- rowSums(confM)
+  confM <- cbind(confM, Error = 0)
+  for (row in 1:(nrow(confM)-1)){
+    correct <- confM[row,row]
+    wrong <- sums[row] - confM[row,row]
+    confM[row,"Error"] = round(wrong/(correct+wrong),5)
+  }
+  confM[nrow(confM), "Error"] <- 1 - mod$overall["Accuracy"]
+  return(confM)
+}

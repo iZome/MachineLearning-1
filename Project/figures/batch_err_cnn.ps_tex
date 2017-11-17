@@ -1,6 +1,6 @@
 %% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
 %% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
-%% Accompanies image file 'grid_acc.ps' (pdf, eps, ps)
+%% Accompanies image file 'batch_err_cnn.ps' (pdf, eps, ps)
 %%
 %% To include the image in your LaTeX document, write
 %%   \input{<filename>.pdf_tex}
@@ -49,14 +49,16 @@
   \global\let\svgscale\undefined%
   \makeatother%
   \begin{picture}(1,0.75)%
-    \put(0,0){\includegraphics[width=\unitlength]{grid_acc.ps}}%
-    \put(0.28,0.03653214){\makebox(0,0)[b]{\smash{5}}}%
-    \put(0.58999999,0.03653214){\makebox(0,0)[b]{\smash{15}}}%
-    \put(0.90000004,0.03653214){\makebox(0,0)[b]{\smash{25}}}%
-    \put(0.51250002,0.00096787){\makebox(0,0)[b]{\smash{$\text{Model\ Number}$}}}%
-    \put(0.11545139,0.18733507){\makebox(0,0)[rb]{\smash{0.2}}}%
-    \put(0.11545139,0.42733508){\makebox(0,0)[rb]{\smash{0.6}}}%
-    \put(0.11545139,0.66733507){\makebox(0,0)[rb]{\smash{1.0}}}%
-    \put(0.04900608,0.375){\rotatebox{90}{\makebox(0,0)[b]{\smash{$CV_{error}$}}}}%
+    \put(0,0){\includegraphics[width=\unitlength]{batch_err_cnn.ps}}%
+    \put(0.21111111,0.03392797){\makebox(0,0)[b]{\smash{20}}}%
+    \put(0.38333334,0.03392797){\makebox(0,0)[b]{\smash{40}}}%
+    \put(0.55555556,0.03392797){\makebox(0,0)[b]{\smash{60}}}%
+    \put(0.7277778,0.03392797){\makebox(0,0)[b]{\smash{80}}}%
+    \put(0.90000004,0.03392797){\makebox(0,0)[b]{\smash{100}}}%
+    \put(0.51250002,-0.00424046){\makebox(0,0)[b]{\smash{$\text{Training\ Batch\ Size}$}}}%
+    \put(0.11284722,0.18733507){\makebox(0,0)[rb]{\smash{0.030}}}%
+    \put(0.11284722,0.42733508){\makebox(0,0)[rb]{\smash{0.040}}}%
+    \put(0.11284722,0.66733507){\makebox(0,0)[rb]{\smash{0.050}}}%
+    \put(0.01365885,0.375){\rotatebox{90}{\makebox(0,0)[b]{\smash{$\text{Misclassification\ Rate}$}}}}%
   \end{picture}%
 \endgroup%

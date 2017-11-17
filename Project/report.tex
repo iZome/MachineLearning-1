@@ -45,8 +45,8 @@
 \section{Introduction}
 Many differnet learning algorithms are used in Statistical Sciences in order
 to classify hand-written digits. This project is focusing on a number of these
-learning approaches, namely Support Vector Machine, Neural Nework and
-Tree Based Methods. The dataset provided for this classification problem contains
+learning approaches, namely Support Vector Machine, Artificial Neural Nework,
+Concolutional Neural Network, Random Forest, Bagging and Boosting. The dataset provided for this classification problem contains
 a response variable which indicated whether a digit is even or odd
 and 784 potential predictor variables which represents various digit properties.
 All the aforementioned approches are fit to the dataset and the best
@@ -61,10 +61,10 @@ train the algorithm on each sample seperately and average the predictions in the
 the key difference between Bagging and Random Forest is that Random Forest has the ability to
 improve variance by reducing the correlation between each tree in the forest. This is accomplished
 by randomly selecting a feature-subset for each split at each node. This is the main reason why
-Random Forests generally will generalize better as the number of trees grows. Furthermore,
-The key difference between these methods is that a Random Forest and Bagging is trained
-in parallel, i.e. each model is build independantly. In contrast,
-Boosting builts the models in a sequential way, making each model dependant on
+Random Forests will generalize better as the number of trees grows. Furthermore,
+the key difference between these three methods is that a Random Forest and Bagging are trained
+in parallel, i.e. each model is built independantly. In contrast,
+Boosting builds the models in a sequential way, making each model dependant on
 the previous ones. \\
 
 \subsection{Support Vector Machine }
@@ -74,14 +74,19 @@ the two classes of data by the largest margin. In order to achieve this, the
 Support Vector Machine will use a kernel to find the hyperplane that separates
 the data best. \\
 
-\subsection{Artificial Neural Network}
-A neural network is also a supervised classifier. The network consists
+\subsection{Deep Learning}
+A neural network is within the class of Deep Learning and it is a supervised classifier. The network consists
 of several components interconnected and organized in layers. Each layer
 consists of neurons, which itself is a simple classifier. The input data
 is fed to the network and will pass through in a forward-feed manner.
 Furthermore, the training part is often done with the \textit{Back Propagation}
-algorithm which helps find the optimal weights of each neuron in
-the layers of the network.
+algorithm which finds the optimal weight of each neuron between
+the layers of the network. \\
+
+Convolutional Neural Networks are somewhat similar to the network
+described above. However, instead of learning single global
+weights matrix between two layers, this network is focusing on
+defining a set of locally connected nurons.
 
 \section{Method}
 \subsection{Tree Based Methods}
@@ -92,16 +97,20 @@ the models trained can be viewed in Table {\ref{table:trained_trees}}\\
 \begin{table}[H]
 \centering
 \begin{tabular}{l*{7}{c}r}
-  Method              & Number of trees & Mtry & Interaction Depth & Learning Rate & Bag Fraction & CV Folds\\
-  \hline
-  Random Forest & 500 \\
-  Bagging & 500 & 32 \\
-  Boosting & 50.000 &  & 2 & 0.001 & 1 & 10 \\
-  Regression Tree & 1 &  &   &   &  & 10  \\
+  Method              & Number & Mtry & Interaction & Learning & Bag & CV\\
+                & of trees & & Depth & Rate & Fraction & Folds \\
+                \hline
+  Random Forest & 500 & & & &  & 10 \\
+  Bagging & 500 & 32 & & & & 10 \\
+  Boosting & 30.000 &  & 2 & 0.001 & 1 & 10 \\
 \end{tabular}
 \caption{Trained Models. If a field is empty, the default package settings are used.}
-\label{table:spam_models}
+\label{table:trained_trees}
 \end{table}
+
+Here, $Bag\ Fraction$ is the fraction of the training set
+observations randomly selected to propose the next tree in the expansion, $Interaction\ Depth$ is the maximum depth of variable interactions,
+$CV\ Folds$  is the number of cross-validation folds to perform and $Mtry$ is the number of variables randomly sampled as candidates at each split. \newline
 
 \subsection{Support Vector Machine}
 A radial based kernel is used for the Support Vector Machine. In addition,
@@ -111,7 +120,8 @@ dimensionality of the problem. Furthermore, the \texttt{caret}-package in
 a number of different soft constraints where tested,
 thereof~$C$~$\in\ \{0, 0.5, 1, 1.5, 2, 3\}$ \\
 
-\subsection{Artificial Neural Network}
+\subsection{Deep Learning}
+\subsubsection{Artificial Neural Network}
 For the Neural Network, the \texttt{h2o}-package is used in order to
 classify the digits. A number of different hyperparameters are tested
 using a grid and the best trained model is then used for further
@@ -148,31 +158,41 @@ the $Stopping\ Tolerance$
 specifies the relative tolerance for the metric-based
 stopping to stop training if the improvement is less than this value. \\
 
+\subsubsection{Convolutional Neural Network}
+For the Convolutional Neural network the \texttt{mxnet}-package in \texttt{R}
+in order to predict the digits. A number of differnet model were trained and the
+most accurate model parameters can be seen in
+Table {\ref{table:cnn_trained}}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l*{3}{c}r}
+  Parameters & Value \\
+  \hline
+  Num Rounds & 50 \\
+  Layers & 2 \\
+  Rate & 0.01\\
+  Array Batch Size & 40\\
+  Momentum & 0.9 \\
+  Stopping Metric & Misclassification \\
+  Activation & Sigmoid
+\end{tabular}
+\caption{CNN Model}
+\label{table:cnn_trained}
+\end{table}
+
+Where $Num\ Rounds$ is the number of iterations over training data to train the model,
+$Layers$ is the number of layers in the network, $Rate$ is the learning rate,
+$Array\ Batch\ Size$ is the batch size used for \texttt{R} array traininga and
+$Activation$ is the activation function used.
+
 
 
 
 
 
 \section{Results}
-\begin{figure}[H]
-  \subfloat[][]{
-  \def\svgwidth{0.5\linewidth}
-  {\input{figures/cumsum.ps_tex}}
-  \label{fig:cumsum}}
-  \hfill
-  \subfloat{\def\svgwidth{0.5\linewidth}
-  {\input{figures/pc.ps_tex}}
-  \label{fig:pc1_pc3}} \\
-  \subfloat{ \def\svgwidth{0.5\linewidth}
-  {\input{figures/grid_acc.ps_tex}}
-  \label{fig:grid_acc}}
-  \hfill
-  \subfloat{\def\svgwidth{0.5\linewidth}
-  {\input{figures/e_out.ps_tex}}
-  \label{fig:num_componentes}}
-\end{figure}
-
-\section{Results}
+\subsection{Tree Based Methods}
 \begin{figure}[H]
   \subfloat[][]{
   \def\svgwidth{0.5\linewidth}
@@ -181,7 +201,7 @@ stopping to stop training if the improvement is less than this value. \\
   \hfill
   \subfloat[][]{
   \def\svgwidth{0.5\linewidth}
-  {\input{figures/mse_grid.ps_tex}}
+  {\input{figures/boost_cv.ps_tex}}
   \label{fig:cumsum}}
   \hfill
 \end{figure}
@@ -210,6 +230,87 @@ stopping to stop training if the improvement is less than this value. \\
 \end{tabular}
 \caption{Bagging confusion matrix}
 \label{table:bag_conf}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l*{4}{c}r}
+  Class              & Even & Odd & Total & Error Rate\\
+  \hline
+  Even & 224 & 24 & 242 & 0.052 \\
+  Odd & 18 & 234 & 258 & 0.052\\
+  Total & 242 & 258 & 500 & 0.08\\
+\end{tabular}
+\caption{Boosting confusion matrix}
+\label{table:boost_conf}
+\end{table}
+
+\subsection{Support Vector Machines}
+\begin{figure}[H]
+  \subfloat[][]{
+  \def\svgwidth{0.5\linewidth}
+  {\input{figures/cumsum.ps_tex}}
+  \label{fig:cumsum}}
+  \hfill
+  \subfloat{\def\svgwidth{0.5\linewidth}
+  {\input{figures/pc.ps_tex}}
+  \label{fig:pc1_pc3}} \\
+  \subfloat{ \def\svgwidth{0.5\linewidth}
+  {\input{figures/grid_acc.ps_tex}}
+  \label{fig:grid_acc}}
+  \hfill
+  \subfloat{\def\svgwidth{0.5\linewidth}
+  {\input{figures/e_out.ps_tex}}
+  \label{fig:num_componentes}}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l*{4}{c}r}
+  Class              & Even & Odd & Total & Error Rate\\
+  \hline
+  Even & 233 & 41 & 266 & 0.082 \\
+  Odd & 17 & 217 & 234 & 0.034 \\
+  Total & 242 & 258 & 500 & 0.11\\
+\end{tabular}
+\caption{Support Vector Machine confusion matrix}
+\label{table:svm_conf}
+\end{table}
+
+\subsection{Artificial Neural Network}
+\begin{figure}[H]
+  \subfloat[][]{
+  \def\svgwidth{0.5\linewidth}
+  {\input{figures/mse_grid.ps_tex}}
+  \label{fig:cumsum}}
+  \hfill
+  \subfloat[][]{
+  \def\svgwidth{0.5\linewidth}
+  {\input{figures/mse_grid.ps_tex}}
+  \label{fig:cumsum}}
+  \hfill
+\end{figure}
+
+\subsubsection{Convolutional Neural Network}
+A number of different models are were manually trained in order to obtain the
+best model. Table {\ref{table:cnn_conf}} shows the confusion matrix for the
+final model and it is observed that this model is able to correctly classify
+$97.8\%$ of the digits in the test set, thus making this the most accurate
+prediction algorithm.
+
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l*{4}{c}r}
+  Class & Even & Odd & Total & Misclassification Rate\\
+  \hline
+  Even & 234 & 8 & 242 & 0.0014 \\
+  Odd & 5 & 253 & 258 & 0.0018\\
+  Total & 239 & 261 & 500 & 0.022\\
+\end{tabular}
+\caption{Confusion matrix for Concolutional Neural Network}
+\label{table:cnn_conf}
 \end{table}
 
 

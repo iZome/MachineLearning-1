@@ -41,12 +41,12 @@
      id="namedview206"
      showgrid="false"
      inkscape:zoom="1.33"
-     inkscape:cx="233.99414"
-     inkscape:cy="286.49624"
+     inkscape:cx="79.106922"
+     inkscape:cy="284.99248"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="legend_1" />
+     inkscape:current-layer="ytick_10" />
   <defs
      id="defs4">
     <style
@@ -191,11 +191,15 @@
       <g
          id="matplotlib.axis_2">
         <g
-           id="ytick_2">
+           id="ytick_2"
+           transform="translate(0,3)"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
           <g
-             id="line2d_10">
+             id="line2d_10"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
             <g
-               id="g99">
+               id="g99"
+               style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
               <path
                  style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
                  id="use97"
@@ -215,11 +219,15 @@
           </g>
         </g>
         <g
-           id="ytick_4">
+           id="ytick_4"
+           transform="translate(0,3)"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
           <g
-             id="line2d_12">
+             id="line2d_12"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
             <g
-               id="g117">
+               id="g117"
+               style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
               <path
                  style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
                  id="use115"
@@ -239,11 +247,15 @@
           </g>
         </g>
         <g
-           id="ytick_6">
+           id="ytick_6"
+           transform="translate(0,3)"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
           <g
-             id="line2d_14">
+             id="line2d_14"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
             <g
-               id="g135">
+               id="g135"
+               style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
               <path
                  style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
                  id="use133"
@@ -263,11 +275,15 @@
           </g>
         </g>
         <g
-           id="ytick_8">
+           id="ytick_8"
+           transform="translate(0,3)"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
           <g
-             id="line2d_16">
+             id="line2d_16"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
             <g
-               id="g153">
+               id="g153"
+               style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
               <path
                  style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
                  id="use151"
@@ -287,11 +303,16 @@
           </g>
         </g>
         <g
-           id="ytick_10">
+           id="ytick_10"
+           transform="translate(0,3)"
+           style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
           <g
-             id="line2d_18">
+             id="line2d_18"
+             style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
+             transform="translate(0,-3)">
             <g
-               id="g171">
+               id="g171"
+               style="stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000">
               <path
                  style="stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100000"
                  id="use169"

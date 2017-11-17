@@ -54,11 +54,11 @@
     \put(0.58999999,0.0313238){\makebox(0,0)[b]{\smash{300}}}%
     \put(0.90000004,0.0313238){\makebox(0,0)[b]{\smash{500}}}%
     \put(0.51250002,-0.00684463){\makebox(0,0)[b]{\smash{$\text{Number\ of\ trees}$}}}%
-    \put(0.11545139,0.13400173){\makebox(0,0)[rb]{\smash{0.06}}}%
-    \put(0.11545139,0.26733504){\makebox(0,0)[rb]{\smash{0.10}}}%
-    \put(0.11545139,0.40066841){\makebox(0,0)[rb]{\smash{0.14}}}%
-    \put(0.11545139,0.53400173){\makebox(0,0)[rb]{\smash{0.18}}}%
-    \put(0.11545139,0.66733507){\makebox(0,0)[rb]{\smash{0.22}}}%
+    \put(0.11545139,0.1287934){\makebox(0,0)[rb]{\smash{0.06}}}%
+    \put(0.11545139,0.26212671){\makebox(0,0)[rb]{\smash{0.10}}}%
+    \put(0.11545139,0.39546008){\makebox(0,0)[rb]{\smash{0.14}}}%
+    \put(0.11545139,0.5287934){\makebox(0,0)[rb]{\smash{0.18}}}%
+    \put(0.11545139,0.66212673){\makebox(0,0)[rb]{\smash{0.22}}}%
     \put(0.03133247,0.375){\rotatebox{90}{\makebox(0,0)[b]{\smash{$\text{OOB error}$}}}}%
     \put(0.45405727,0.56498437){\makebox(0,0)[lb]{\smash{$\text{Random Forest}$}}}%
     \put(0.45405727,0.61439062){\makebox(0,0)[lb]{\smash{$\text{Bagging}$}}}%
